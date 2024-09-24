@@ -1,0 +1,21 @@
+.overlay {
+  background: rgba(255, 0, 0, 0.4); /* Teinte rouge pour rappeler les pompiers */
+}
+
+.content h1, .content p {
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); /* Ajout de texte en relief pour plus de lisibilité */
+}
+
+.btn-outline-light {
+  border-color: #f8f9fa;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-outline-light:hover {
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+.btn-outline-light:focus {
+  box-shadow: 0 0 0 0.2rem rgba(248, 249, 250, 0.5);
+}
