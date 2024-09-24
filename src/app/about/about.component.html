@@ -1,19 +1,32 @@
 <div class="container py-5">
-  <div class="row">
-    <div class="col-md-4">
-      <img src="/assets/profile.webp" class="img-fluid rounded-circle" alt="Ton profil">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="/assets/profile.webp" class="img-fluid rounded-circle" alt="Ton profil">
+        </div>
+        <div class="col-md-8">
+            <h2>À propos de moi</h2>
+            <p>
+                👋 Bienvenue sur mon E-Portfolio ! 🚀 <br>
+                Je suis {{ name }}, j'ai {{ age }}, je suis
+                <i style="font-style: normal" *ngFor="let job of jobs"> {{ job }},</i>
+                curieux de nouvelles technologies et toujours en quête de défis à relever 💻. <br>
+                Ici, vous découvrirez mon parcours professionnel 🛠️, mes compétences techniques 🎯, et mes projets les plus passionnants 🎨. <br>
+                Que vous soyez recruteur, passionné de tech ou simplement curieux, plongez dans mon univers et apprenez-en plus sur ce qui me motive et me pousse à innover ! 🌟 <br>
+                <br>
+                Prêt à explorer ? Let's code ! 💡💥
+            </p>
+        </div>
     </div>
-    <div class="col-md-8">
-      <h2>À propos de moi</h2>
-      <p>
-        👋 Bienvenue sur mon E-Portfolio ! 🚀 <br>
-        Je suis {{ name }}, j'ai {{ age }}, je suis<i style="font-style: normal" *ngFor="let job of jobs"> {{ job }},</i> curieux de nouvelles technologies et toujours en quête de défis à relever 💻. <br>
-        Ici, vous découvrirez mon parcours professionnel 🛠️, mes compétences techniques 🎯, et mes projets les plus passionnants 🎨. <br>
-        Que vous soyez recruteur, passionné de tech ou simplement curieux, plongez dans mon univers et apprenez-en plus sur ce qui me motive et me pousse à innover ! 🌟 <br>
 
-        <br>
-        Prêt à explorer ? Let's code ! 💡💥
-      </p>
+    <!-- Section pour afficher les images -->
+    <div class="row mt-5">
+        <div class="col-md-4" *ngFor="let image of images">
+            <div class="card shadow-sm">
+                <img [src]="image['path']" class="card-img-top img-fluid fixed-size-image rounded" alt="{{ image['alt'] }}">
+                <div class="card-body">
+                    <p class="card-text text-center">{{ image['alt'] }}</p>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>

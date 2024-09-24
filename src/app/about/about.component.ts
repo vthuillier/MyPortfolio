@@ -19,6 +19,12 @@ export class AboutComponent {
   ];
   birthday: Date = new Date("2004-07-30");
 
+  images = [
+    {path: "assets/about/describe-1.jpg", alt: "Le monde des pompiers 🚒"},
+    {path: "assets/about/describe-2.jpg", alt: "L'adrénaline 🫀"},
+    {path: "assets/about/describe-3.jpg", alt: "Le développpement 🖥️"},
+  ]
+
   get age(): number {
     let age: number = new Date().getFullYear() - this.birthday.getFullYear();
     if (new Date().getMonth() < this.birthday.getMonth() || (new Date().getMonth() == this.birthday.getMonth() && new Date().getDate() < this.birthday.getDate())) {
