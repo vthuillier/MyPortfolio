@@ -1,8 +1,27 @@
+/* Ajustement du nombre de colonnes */
+.col-6.col-md-4.col-lg-2 {
+  display: flex;
+  justify-content: center;
+}
+
 .card {
   position: relative;
+  width: 100%;
   overflow: hidden;
   background-color: #f8f9fa;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  padding-bottom: 20px;
+  border: 1px solid #ddd;
+}
+
+.card-img-container {
+  height: 120px; /* Ajuster la hauteur pour réduire la taille des images */
+  overflow: hidden; /* Masquer toute partie de l'image qui dépasse */
+}
+
+.card-img-top {
+  max-height: 100%; /* Limiter la hauteur de l'image */
+  width: auto; /* Garder la largeur proportionnelle */
 }
 
 .card::after {
@@ -29,4 +48,13 @@
 .card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Style pour afficher le niveau */
+.badge {
+  font-size: 0.85rem;
+  padding: 0.4em 0.7em;
+  position: relative;
+  z-index: 2;
+  margin-top: 10px;
 }

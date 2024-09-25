@@ -1,16 +1,25 @@
-<div class="container py-5">
-  <h2 class="text-center">Mes Projets</h2>
-  <div class="row">
-    <div class="col-md-4">
-      <div class="card mb-4 shadow-sm">
-        <img src="project1.jpg" class="card-img-top" alt="Projet 1">
-        <div class="card-body">
-          <h5 class="card-title">Projet 1</h5>
-          <p class="card-text">Description du projet. Ce projet utilise [Technologies].</p>
-          <a href="https://github.com/toncompte/projet1" class="btn btn-outline-primary">Voir le projet</a>
+<div class="container">
+    <h2 class="text-center mb-4">Mes Projets</h2>
+
+    <div class="row">
+        <div class="col-md-4" *ngFor="let project of projects">
+            <div class="card mb-4 text-center project-card" (click)="openProject(project)">
+                <img [src]="project.image" alt="{{ project.title }}" class="card-img-top project-image">
+                <div class="card-body">
+                    <h5 class="card-title">{{ project.title }}</h5>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-    <!-- Ajoute plus de projets ici -->
-  </div>
+
+    <!-- Modal pour les détails du projet -->
+    <div *ngIf="selectedProject" class="modal-overlay" (click)="closeModal()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+            <h3>{{ selectedProject.title }}</h3>
+            <p>{{ selectedProject.description }}</p>
+            <p><strong>Technologies :</strong> {{ selectedProject.technologies.join(', ') }}</p>
+            <a [href]="selectedProject.link" target="_blank" class="btn btn-primary">Voir sur GitHub</a>
+            <button class="btn btn-secondary mt-3" (click)="closeModal()">Fermer</button>
+        </div>
+    </div>
 </div>

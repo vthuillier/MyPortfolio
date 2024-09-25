@@ -1,11 +1,45 @@
 <div class="container py-5">
+    <!-- Texte d'introduction -->
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h2>Mes Compétences Techniques et Personnelles</h2>
+            <p class="lead">
+                Voici un aperçu de mes compétences principales dans les domaines techniques et personnels.
+                Cliquez sur chaque compétence pour découvrir comment je l'ai acquise et mes niveaux de maîtrise.
+            </p>
+        </div>
+    </div>
+
+    <!-- Section des compétences -->
     <div class="row">
-        <div class="col-12 col-md-6 col-lg-4 mb-4" *ngFor="let skill of skills">
-            <div class="card h-100 text-center" [ngStyle]="{'--fill-level': skill.level + '%'}">
-                <img [src]="getImagePath(skill.image)" alt="{{ skill.name }}" class="card-img-top img-fluid p-3" />
+        <div class="col-6 col-md-4 col-lg-2 mb-4" *ngFor="let skill of skills">
+            <div class="card h-100 text-center" [ngStyle]="{'--fill-level': skill.level + '%'}" (click)="openSkillDetails(skill)">
+                <div class="card-img-container">
+                    <img [src]="getImagePath(skill.image)" alt="{{ skill.name }}" class="card-img-top img-fluid p-3" />
+                </div>
                 <div class="card-body">
                     <h5 class="card-title">{{ skill.name }}</h5>
+                    <span class="badge bg-primary">{{ skill.level }}%</span>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal pour afficher les détails d'une compétence -->
+<div class="modal fade" id="skillModal" tabindex="-1" aria-labelledby="skillModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="skillModalLabel">{{ selectedSkill?.name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Niveau : </strong>{{ selectedSkill?.level }}%</p>
+                <p>{{ selectedSkill?.description }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
             </div>
         </div>
     </div>
