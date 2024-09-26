@@ -1,18 +1,27 @@
-<div class="container py-5">
-  <h2 class="text-center">Mon Parcours</h2>
-  <ul class="timeline">
-    <li>
-      <div class="timeline-badge"><i class="glyphicon glyphicon-education"></i></div>
-      <div class="timeline-panel">
-        <div class="timeline-heading">
-          <h4 class="timeline-title">Université XYZ - Licence en Informatique</h4>
-          <p><small class="text-muted">2018 - 2021</small></p>
-        </div>
-        <div class="timeline-body">
-          <p>Description du programme ou des compétences acquises.</p>
+<div class="container education-section">
+  <h2 class="text-center mb-5">Mon Parcours Éducatif</h2>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10" *ngFor="let edu of education">
+      <div class="card mb-4 shadow-sm">
+        <div class="row g-0">
+          <div class="col-md-4 d-flex align-items-center">
+            <!-- Utiliser une classe supplémentaire pour gérer la taille de l'image -->
+            <img [src]="edu.img" class="img-fluid rounded-start education-img" alt="{{ edu.name }}">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">{{ edu.name }}</h5>
+              <p class="card-text"><strong>Spécialités :</strong> {{ edu.specialities }}</p>
+              <p class="card-text">
+                <strong>Période :</strong> {{ formatDate(edu.start) }} - {{ isOngoing(edu.end) }}<br>
+                <strong>Lieu :</strong> {{ edu.location }}
+              </p>
+              <p class="card-text">{{ edu.description }}</p>
+            </div>
+          </div>
         </div>
       </div>
-    </li>
-    <!-- Ajoute plus d'éducation ici -->
-  </ul>
+    </div>
+  </div>
 </div>
