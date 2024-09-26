@@ -1,15 +1,27 @@
-<div class="container py-5">
-  <h2 class="text-center">Expériences Professionnelles</h2>
-  <div class="row">
-    <div class="col-md-6">
-      <div class="card mb-4 shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title">Développeur Back-End - Société ABC</h5>
-          <p class="card-text">[Description du rôle et des réalisations]</p>
-          <p class="text-muted">2021 - Présent</p>
+<div class="container-fluid experiences-section">
+  <h2 class="text-center mb-5">Mes Expériences</h2>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10" *ngFor="let exp of experiences">
+      <div class="card experience-card mb-4 shadow-sm">
+        <div class="row g-0 align-items-center">
+          <div class="col-md-4">
+            <div class="image-container">
+              <img [src]="exp.img" class="img-fluid experience-img" alt="{{ exp.name }}">
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">{{ exp.name }}</h5>
+              <p class="company-name"><strong>{{ exp.company }}</strong> - {{ exp.locate }}</p>
+              <p class="card-text">
+                <strong>Période :</strong> {{ formatDate(exp.start) }} - {{ isOngoing(exp.end) }}<br>
+              </p>
+              <p class="card-text">{{ exp.description }}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <!-- Ajoute plus d'expériences ici -->
   </div>
 </div>

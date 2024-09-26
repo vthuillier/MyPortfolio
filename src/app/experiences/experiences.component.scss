@@ -1,0 +1,57 @@
+.experiences-section {
+  background-color: #ffffff; /* Fond blanc comme demandé */
+  color: #333;
+  padding: 60px 0;
+}
+
+.experience-card {
+  background: #f9f9f9; /* Fond des cartes en gris très clair */
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* Ratio 16:9 */
+  background-color: #eaeaea;
+  overflow: hidden;
+}
+
+.experience-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 20px;
+  font-family: 'Roboto', sans-serif;
+
+  .card-title {
+    font-size: 1.75rem;
+    color: #007bff;
+    margin-bottom: 10px;
+  }
+
+  .company-name {
+    font-size: 1.25rem;
+    color: #666;
+    margin-bottom: 10px;
+  }
+
+  .card-text {
+    font-size: 1rem;
+    color: #555;
+  }
+}
