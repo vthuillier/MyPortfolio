@@ -18,8 +18,8 @@
             <h3>{{ selectedProject.title }}</h3>
             <p>{{ selectedProject.description }}</p>
             <p><strong>Technologies :</strong> {{ selectedProject.technologies.join(', ') }}</p>
-            <a [href]="selectedProject.link" target="_blank" class="btn btn-primary">Voir sur GitHub</a>
-            <button class="btn btn-secondary mt-3" (click)="closeModal()">Fermer</button>
+            <a [href]="selectedProject.link" target="_blank" class="btn btn-primary w-100">Voir sur GitHub</a>
+            <button class="btn btn-secondary w-100 mt-3" (click)="closeModal()">Fermer</button>
         </div>
     </div>
 </div>
