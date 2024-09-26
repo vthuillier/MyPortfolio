@@ -16,6 +16,7 @@ FROM nginx:alpine
 
 # Copier les fichiers de build Angular dans le dossier par défaut d'Nginx
 COPY --from=build /app/dist/my-portfolio/browser /usr/share/nginx/html
+COPY default.conf /etc/nginx/conf.d/default.conf
 
 # Optionnel : Configurer un fichier nginx.conf personnalisé si besoin
 # COPY nginx.conf /etc/nginx/nginx.conf

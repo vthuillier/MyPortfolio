@@ -47,7 +47,7 @@ export class ProjectsComponent {
       title: 'E-Portfolio en Angular 🌐',
       description: 'Création de mon portfolio personnel 💼 en Angular, avec des animations et un mode dark/light pour une expérience utilisateur personnalisée.',
       technologies: ['Angular', 'TypeScript', 'SCSS', 'Bootstrap'],
-      image: 'assets/projects/portfolio-angular.jpg',
+      image: 'assets/projects/portfolio-angular.png',
       link: 'https://github.com/vthuillier/MyPortfolio'
     }
   ];
