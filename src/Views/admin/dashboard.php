@@ -165,6 +165,69 @@
                         </table>
                     </div>
                 </div>
+
+                <!-- Technical Expertise Section -->
+                <div class="space-y-10 pt-10 border-t border-stone-800">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-3xl font-black uppercase tracking-tighter">Technical Expertise</h2>
+                        <a href="/admin/skill/create"
+                            class="accent-bg-yellow text-black px-6 py-3 font-black uppercase tracking-widest text-[10px] hover:bg-white transition">
+                            New Skill
+                        </a>
+                    </div>
+
+                    <div class="glass-card rounded-sm overflow-hidden border border-stone-800">
+                        <table class="min-w-full divide-y divide-stone-800">
+                            <thead class="bg-stone-900/50">
+                                <tr>
+                                    <th
+                                        class="px-6 py-4 text-left text-[10px] font-black text-stone-500 uppercase tracking-widest">
+                                        Category</th>
+                                    <th
+                                        class="px-6 py-4 text-left text-[10px] font-black text-stone-500 uppercase tracking-widest">
+                                        Skill</th>
+                                    <th
+                                        class="px-6 py-4 text-left text-[10px] font-black text-stone-500 uppercase tracking-widest">
+                                        Level</th>
+                                    <th
+                                        class="px-6 py-4 text-right text-[10px] font-black text-stone-500 uppercase tracking-widest">
+                                        Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-800">
+                                <?php foreach ($skills as $skill): ?>
+                                    <tr class="hover:bg-white/5 transition">
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="text-[9px] font-black px-2 py-1 border border-stone-800 text-stone-400 uppercase tracking-widest">
+                                                <?php echo htmlspecialchars($skill['category']); ?>
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 font-bold text-stone-200">
+                                            <?php echo htmlspecialchars($skill['name']); ?></td>
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center space-x-2">
+                                                <div class="w-20 h-1 bg-stone-900">
+                                                    <div class="h-full bg-yellow-400"
+                                                        style="width: <?php echo $skill['level']; ?>%"></div>
+                                                </div>
+                                                <span
+                                                    class="text-[10px] font-mono text-stone-500"><?php echo $skill['level']; ?>%</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 text-right space-x-3">
+                                            <a href="/admin/skill/edit?id=<?php echo $skill['id']; ?>"
+                                                class="text-stone-500 hover:text-yellow-400 transition text-[10px] font-black uppercase tracking-widest">Edit</a>
+                                            <a href="/admin/skill/delete?id=<?php echo $skill['id']; ?>"
+                                                onclick="return confirm('Confirm Deletion?')"
+                                                class="text-red-900 hover:text-red-500 transition text-[10px] font-black uppercase tracking-widest">Delete</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
             <!-- Settings Section -->

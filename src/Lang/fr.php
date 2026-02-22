@@ -23,4 +23,10 @@ return [
     'contact_success' => 'TRANSMISSION OK // ACK RECU',
     'field_experience' => 'EXPÉRIENCE TERRAIN',
     'formation' => 'FORMATION',
+    'skills_title' => 'EXPERTISE TECHNIQUE',
+    'philosophy_title' => 'PHILOSOPHIE',
+    'phil_automation_title' => 'Automatisation d\'abord',
+    'phil_automation_text' => 'Si cela arrive deux fois, automatisez-le. Focus sur le cycle de vie complet.',
+    'phil_scalability_title' => 'Scalabilité',
+    'phil_scalability_text' => 'Conçu pour une croissance x10 dès le premier jour.',
 ];

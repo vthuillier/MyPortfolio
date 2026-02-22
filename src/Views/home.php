@@ -135,10 +135,11 @@ $isEn = \App\Helpers\Language::getCurrent() === 'en';
         <div class="flex flex-col mb-20">
             <span class="text-yellow-500 text-xs font-black uppercase tracking-[0.3em] mb-4">Core Competencies /
                 Stack</span>
-            <h3 class="text-4xl font-black uppercase tracking-tighter">Technical Expertise</h3>
+            <h3 class="text-4xl font-black uppercase tracking-tighter">
+                <?php echo \App\Helpers\Language::get('skills_title'); ?></h3>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12" data-test="true">
             <!-- DevOps -->
             <div class="space-y-8">
                 <h4 class="text-xl font-black uppercase tracking-widest text-white border-l-4 border-yellow-400 pl-4">

@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Models\Setting;
 use App\Models\User;
 use App\Models\Timeline;
+use App\Models\Skill;
 use App\Helpers\Auth;
 
 class AdminController extends Controller
@@ -59,10 +60,12 @@ class AdminController extends Controller
         $projects = Project::all();
         $settings = Setting::all();
         $timeline = Timeline::all();
+        $skills = Skill::all();
         $this->render('admin/dashboard', [
             'projects' => $projects,
             'settings' => $settings,
-            'timeline' => $timeline
+            'timeline' => $timeline,
+            'skills' => $skills
         ]);
     }
 
@@ -129,6 +132,35 @@ class AdminController extends Controller
     {
         $id = $_GET['id'] ?? null;
         Timeline::delete($id);
+        $this->redirect('/admin');
+    }
+
+    public function skillCreate()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            Skill::create($_POST);
+            $this->redirect('/admin');
+        }
+        $this->render('admin/skill_form', ['action' => 'create']);
+    }
+
+    public function skillEdit()
+    {
+        $id = $_GET['id'] ?? null;
+        $skill = Skill::find($id);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            Skill::update($id, $_POST);
+            $this->redirect('/admin');
+        }
+
+        $this->render('admin/skill_form', ['action' => 'edit', 'skill' => $skill]);
+    }
+
+    public function skillDelete()
+    {
+        $id = $_GET['id'] ?? null;
+        Skill::delete($id);
         $this->redirect('/admin');
     }
 
