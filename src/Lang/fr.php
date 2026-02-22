@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'nav_strategy' => 'STRATÉGIE',
+    'nav_interventions' => 'INTERVENTIONS',
+    'nav_contact' => 'CONTACT',
+    'nav_admin' => 'BASE ADMIN',
+    'status_ready' => 'PRÊT POUR DÉPLOIEMENT',
+    'status_busy' => 'INTERVENTION CRITIQUE',
+    'hero_browse' => 'DÉCOUVRIR LE STACK',
+    'hero_cv' => 'TÉLÉCHARGER MANIFESTE (CV)',
+    'about_title' => 'Architecture &',
+    'about_intervention' => 'Intervention',
+    'about_node' => 'Noeud Physique: Sapeur-Pompier Volontaire',
+    'projects_log' => 'JOURNAL DE DÉPLOIEMENT',
+    'projects_title' => 'PROJETS TECHNIQUES',
+    'contact_title' => 'CENTRE DE DISPATCHING',
+    'contact_text' => 'Pour toute intervention technique ou manifeste collaboratif, utilisez le terminal sécurisé ci-dessous.',
+    'contact_identity' => 'Identité Opérateur',
+    'contact_route' => 'Route de Retour',
+    'contact_payload' => 'Payload du Manifeste',
+    'contact_trigger' => 'DÉCLENCHER ALERTE',
+    'contact_success' => 'TRANSMISSION OK // ACK RECU',
+    'field_experience' => 'EXPÉRIENCE TERRAIN',
+    'formation' => 'FORMATION',
+];

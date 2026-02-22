@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'nav_strategy' => 'STRATEGY',
+    'nav_interventions' => 'INTERVENTIONS',
+    'nav_contact' => 'CONTACT',
+    'nav_admin' => 'ADMIN BASE',
+    'status_ready' => 'READY FOR DEPLOYMENT',
+    'status_busy' => 'CRITICAL INCIDENT',
+    'hero_browse' => 'BROWSE STACK',
+    'hero_cv' => 'DOWNLOAD MANIFEST (CV)',
+    'about_title' => 'Architecture &',
+    'about_intervention' => 'Intervention',
+    'about_node' => 'Physical Node: Volunteer Firefighter',
+    'projects_log' => 'DEPLOYMENT LOG',
+    'projects_title' => 'TECHNICAL PROJECTS',
+    'contact_title' => 'DISPATCH CENTER',
+    'contact_text' => 'For any technical intervention or collaborative manifest, please use the secure terminal below.',
+    'contact_identity' => 'Operator Identity',
+    'contact_route' => 'Return Route',
+    'contact_payload' => 'Manifest Payload',
+    'contact_trigger' => 'TRIGGER ALERT',
+    'contact_success' => 'TRANSMISSION OK // ACK RECEIVED',
+    'field_experience' => 'FIELD EXPERIENCE',
+    'formation' => 'EDUCATION',
+];

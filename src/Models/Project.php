@@ -24,10 +24,12 @@ class Project
     public static function create($data)
     {
         $db = Database::getConnection();
-        $stmt = $db->prepare("INSERT INTO projects (title, description, image_url, project_link, category) VALUES (?, ?, ?, ?, ?)");
+        $stmt = $db->prepare("INSERT INTO projects (title, title_en, description, description_en, image_url, project_link, category) VALUES (?, ?, ?, ?, ?, ?, ?)");
         return $stmt->execute([
             $data['title'],
+            $data['title_en'] ?? null,
             $data['description'],
+            $data['description_en'] ?? null,
             $data['image_url'],
             $data['project_link'],
             $data['category']
@@ -37,10 +39,12 @@ class Project
     public static function update($id, $data)
     {
         $db = Database::getConnection();
-        $stmt = $db->prepare("UPDATE projects SET title = ?, description = ?, image_url = ?, project_link = ?, category = ? WHERE id = ?");
+        $stmt = $db->prepare("UPDATE projects SET title = ?, title_en = ?, description = ?, description_en = ?, image_url = ?, project_link = ?, category = ? WHERE id = ?");
         return $stmt->execute([
             $data['title'],
+            $data['title_en'] ?? null,
             $data['description'],
+            $data['description_en'] ?? null,
             $data['image_url'],
             $data['project_link'],
             $data['category'],

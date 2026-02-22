@@ -1,34 +1,49 @@
-# Portfolio Dynamique PHP
+# Professional DevOps Portfolio - Valentin Thuillier
 
-Ce projet est un portfolio moderne et dynamique construit en PHP (MVC simplifié) avec une base de données SQLite.
+Modern, high-performance dynamic portfolio built with PHP 8.2 and SQLite. Optimized for DevOps engineers and tech professionals.
 
-## Installation
+## 🚀 Quick Start (Docker)
 
-1. **Serveur Web** : Pointez votre serveur web (Apache/Nginx) vers le dossier `public/`.
-2. **Dépendances PHP** : Assurez-vous d'avoir PHP 8+ et l'extension `pdo_sqlite` installée.
-   - Sur Ubuntu/Debian : `sudo apt-get install php-sqlite3`
-3. **Initialisation de la base de données** :
-   Exécutez la commande suivante à la racine du projet :
+The fastest way to deploy this portfolio is using Docker:
+
+```bash
+# Build the image
+docker build -t portfolio-devops .
+
+# Run the container
+docker run -d -p 8080:80 --name portfolio portfolio-devops
+```
+
+Access the site at `http://localhost:8080`.
+
+## 🛠 Tech Stack
+
+- **Core**: PHP 8.2 (Custom MVC Routing)
+- **Database**: SQLite 3 (PDO)
+- **Frontend**: Tailwind CSS, Google Fonts (Outfit), Lucide-like icons
+- **Server**: Apache with `mod_rewrite` enabled
+- **Deployment**: Ready-to-use Dockerfile
+
+## 🔧 Manual Installation
+
+1. **DB Init**: Ensure `php-sqlite3` is installed, then run:
    ```bash
    php init_db.php
    ```
-   _Note : Si la commande échoue à cause du driver PDO, installez l'extension mentionnée ci-dessus._
+2. **Local Server**:
+   ```bash
+   php -S localhost:8080 -t public/
+   ```
 
-## Accès Administration
+## 🔐 Administration
 
-- **URL** : `/login`
-- **Utilisateur par défaut** : `admin`
-- **Mot de passe par défaut** : `admin123`
-  _N'oubliez pas de changer le mot de passe dans la base de données après votre première connexion._
+- **Route**: `/login`
+- **Identity**: `admin`
+- **Key**: `admin123`
 
-## Structure du projet
+## 📁 Repository Structure
 
-- `public/` : Point d'entrée web (Assets, Uploads).
-- `src/` : Code source (MVC).
-  - `Controllers/` : Logique de l'application.
-  - `Models/` : Interaction avec la base de données.
-  - `Views/` : Templates HTML (Public & Admin).
-  - `Config/` : Configuration (Base de données).
-  - `Helpers/` : Utilitaires (Auth).
-- `database/` : Fichiers SQLite.
-- `init_db.php` : Script de migration initiale.
+- `src/` : Application logic (Controllers, Models, Helpers).
+- `public/` : Web root (index.php, CSS, Uploads).
+- `database/` : Persistence layer.
+- `Dockerfile` : Production-ready container config.

@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Project;
 use App\Models\Setting;
 use App\Models\User;
+use App\Models\Timeline;
 use App\Helpers\Auth;
 
 class AdminController extends Controller
@@ -12,9 +13,13 @@ class AdminController extends Controller
 
     public function __construct()
     {
-        // Only require auth for non-login routes
-        $route = $_GET['route'] ?? '';
-        if ($route !== 'login' && $route !== 'authenticate') {
+        // Detect route consistently with index.php
+        $uri = $_SERVER['REQUEST_URI'];
+        $basePath = str_replace('/index.php', '', $_SERVER['SCRIPT_NAME']);
+        $route = $_GET['route'] ?? str_replace($basePath, '', $uri);
+        $route = trim(explode('?', $route)[0], '/');
+
+        if ($route !== 'login' && $route !== 'authenticate' && $route !== '') {
             Auth::requireAuth();
         }
     }
@@ -22,7 +27,7 @@ class AdminController extends Controller
     public function login()
     {
         if (Auth::check()) {
-            $this->redirect('/admin');
+            $this->redirect('admin');
         }
         $this->render('admin/login');
     }
@@ -53,9 +58,11 @@ class AdminController extends Controller
     {
         $projects = Project::all();
         $settings = Setting::all();
+        $timeline = Timeline::all();
         $this->render('admin/dashboard', [
             'projects' => $projects,
-            'settings' => $settings
+            'settings' => $settings,
+            'timeline' => $timeline
         ]);
     }
 
@@ -96,6 +103,35 @@ class AdminController extends Controller
         $this->redirect('/admin');
     }
 
+    public function timelineCreate()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            Timeline::create($_POST);
+            $this->redirect('/admin');
+        }
+        $this->render('admin/timeline_form', ['action' => 'create']);
+    }
+
+    public function timelineEdit()
+    {
+        $id = $_GET['id'] ?? null;
+        $item = Timeline::find($id);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            Timeline::update($id, $_POST);
+            $this->redirect('/admin');
+        }
+
+        $this->render('admin/timeline_form', ['action' => 'edit', 'item' => $item]);
+    }
+
+    public function timelineDelete()
+    {
+        $id = $_GET['id'] ?? null;
+        Timeline::delete($id);
+        $this->redirect('/admin');
+    }
+
     public function settingsUpdate()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -110,7 +146,11 @@ class AdminController extends Controller
             return null;
 
         $targetDir = __DIR__ . "/../../public/uploads/";
-        $fileName = time() . '_' . basename($file["name"]);
+        if (!is_dir($targetDir)) {
+            mkdir($targetDir, 0777, true);
+        }
+
+        $fileName = time() . '_' . str_replace(' ', '_', basename($file["name"]));
         $targetFile = $targetDir . $fileName;
 
         // Basic security check
@@ -119,7 +159,7 @@ class AdminController extends Controller
 
         if (in_array($imageFileType, $allowed)) {
             if (move_uploaded_file($file["tmp_name"], $targetFile)) {
-                return "/uploads/" . $fileName;
+                return "uploads/" . $fileName;
             }
         }
         return null;

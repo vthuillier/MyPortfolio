@@ -1,6 +1,6 @@
 <?php
 
-// Autoloader (Simple)
+// Basic Router and Autoloader
 spl_autoload_register(function ($class) {
     $prefix = 'App\\';
     $base_dir = __DIR__ . '/../src/';
@@ -13,17 +13,23 @@ spl_autoload_register(function ($class) {
         require $file;
 });
 
-// Basic Router
-$route = $_GET['route'] ?? 'home';
+session_start();
 
-// Handle trailing slashes and clean route
-$route = trim($route, '/');
+// Handle request routing
+$uri = $_SERVER['REQUEST_URI'];
+$basePath = str_replace('/index.php', '', $_SERVER['SCRIPT_NAME']);
+$route = $_GET['route'] ?? str_replace($basePath, '', $uri);
+$route = trim(explode('?', $route)[0], '/');
 
 use App\Controllers\HomeController;
 use App\Controllers\AdminController;
+use App\Helpers\Language;
+
+Language::init();
 
 switch ($route) {
     case 'home':
+    case 'index.php':
     case '':
         (new HomeController())->index();
         break;
@@ -61,12 +67,24 @@ switch ($route) {
         (new AdminController())->projectDelete();
         break;
 
+    case 'admin/timeline/create':
+        (new AdminController())->timelineCreate();
+        break;
+
+    case 'admin/timeline/edit':
+        (new AdminController())->timelineEdit();
+        break;
+
+    case 'admin/timeline/delete':
+        (new AdminController())->timelineDelete();
+        break;
+
     case 'admin/settings':
         (new AdminController())->settingsUpdate();
         break;
 
     default:
         http_response_code(404);
-        echo "404 - Page non trouvée";
+        echo "404 - Page non trouvée: " . htmlspecialchars($route);
         break;
 }
