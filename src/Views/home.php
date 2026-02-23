@@ -14,7 +14,7 @@ $isEn = \App\Helpers\Language::getCurrent() === 'en';
                     <span
                         class="relative inline-flex rounded-full h-2 w-2 <?php echo ($settings['is_available'] ?? '1') === '1' ? 'bg-green-500' : 'bg-red-500'; ?>"></span>
                 </span>
-                <span>SYSTEM STATUS:
+                <span><?php echo \App\Helpers\Language::get('system_status'); ?>:
                     <?php echo ($settings['is_available'] ?? '1') === '1' ? \App\Helpers\Language::get('status_ready') : \App\Helpers\Language::get('status_busy'); ?></span>
             </div>
 
@@ -136,93 +136,84 @@ $isEn = \App\Helpers\Language::getCurrent() === 'en';
             <span class="text-yellow-500 text-xs font-black uppercase tracking-[0.3em] mb-4">Core Competencies /
                 Stack</span>
             <h3 class="text-4xl font-black uppercase tracking-tighter">
-                <?php echo \App\Helpers\Language::get('skills_title'); ?></h3>
+                <?php echo \App\Helpers\Language::get('skills_title'); ?>
+            </h3>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-12" data-test="true">
-            <!-- DevOps -->
-            <div class="space-y-8">
-                <h4 class="text-xl font-black uppercase tracking-widest text-white border-l-4 border-yellow-400 pl-4">
-                    DevOps & CI/CD</h4>
-                <div class="space-y-6">
-                    <?php
-                    $devops = [
-                        ['GitLab CI', 90],
-                        ['Jenkins', 85],
-                        ['Ansible', 80],
-                        ['Docker/K8s', 75],
-                        ['IaC', 80]
-                    ];
-                    foreach ($devops as $s): ?>
-                        <div class="space-y-2">
-                            <div
-                                class="flex justify-between text-[10px] font-black uppercase tracking-widest text-stone-500">
-                                <span><?php echo $s[0]; ?></span>
-                                <span><?php echo $s[1]; ?>%</span>
-                            </div>
-                            <div class="h-1 bg-stone-900 w-full">
-                                <div class="h-full bg-yellow-400" style="width: <?php echo $s[1]; ?>%"></div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <?php
+            // Group skills by category
+            $groupedSkills = [];
+            foreach ($skills as $skill) {
+                $category = $isEn ? ($skill['category_en'] ?? $skill['category']) : $skill['category'];
+                $groupedSkills[$category][] = $skill;
+            }
 
-            <!-- Databases -->
-            <div class="space-y-8">
-                <h4 class="text-xl font-black uppercase tracking-widest text-white border-l-4 border-red-600 pl-4">
-                    Databases & Ops</h4>
-                <div class="space-y-6">
-                    <?php
-                    $dbs = [
-                        ['PostgreSQL', 85],
-                        ['MongoDB', 80],
-                        ['Redis', 75],
-                        ['Elasticsearch', 70],
-                        ['Linux SysAdmin', 90]
-                    ];
-                    foreach ($dbs as $s): ?>
-                        <div class="space-y-2">
-                            <div
-                                class="flex justify-between text-[10px] font-black uppercase tracking-widest text-stone-500">
-                                <span><?php echo $s[0]; ?></span>
-                                <span><?php echo $s[1]; ?>%</span>
+            $colors = ['border-yellow-400', 'border-red-600', 'border-stone-400'];
+            $barColors = ['bg-yellow-400', 'bg-red-600', 'bg-stone-400'];
+            $i = 0;
+            foreach ($groupedSkills as $category => $items):
+                if ($i >= 2)
+                    break; // Display first 2 categories in first 2 columns
+                $borderColor = $colors[$i % count($colors)];
+                $barColor = $barColors[$i % count($barColors)];
+                ?>
+                <div class="space-y-8">
+                    <h4
+                        class="text-xl font-black uppercase tracking-widest text-white border-l-4 <?php echo $borderColor; ?> pl-4">
+                        <?php echo htmlspecialchars($category); ?>
+                    </h4>
+                    <div class="space-y-6">
+                        <?php foreach ($items as $s): ?>
+                            <div class="space-y-2">
+                                <div
+                                    class="flex justify-between text-[10px] font-black uppercase tracking-widest text-stone-500">
+                                    <span><?php echo htmlspecialchars($s['name']); ?></span>
+                                    <span><?php echo $s['level']; ?>%</span>
+                                </div>
+                                <div class="h-1 bg-stone-900 w-full overflow-hidden">
+                                    <div class="h-full <?php echo $barColor; ?> transition-all duration-1000"
+                                        style="width: <?php echo $s['level']; ?>%"></div>
+                                </div>
                             </div>
-                            <div class="h-1 bg-stone-900 w-full">
-                                <div class="h-full bg-red-600" style="width: <?php echo $s[1]; ?>%"></div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
-            </div>
+                <?php
+                $i++;
+            endforeach; ?>
 
-            <!-- Methodology -->
+            <!-- Methodology Section -->
             <div class="space-y-8">
                 <h4 class="text-xl font-black uppercase tracking-widest text-white border-l-4 border-stone-600 pl-4">
-                    Philosophy</h4>
+                    <?php echo \App\Helpers\Language::get('philosophy_title'); ?>
+                </h4>
                 <div class="grid grid-cols-1 gap-4">
-                    <div class="p-6 bg-stone-900/50 border border-stone-800 hover:border-white/10 transition">
-                        <div class="text-white font-black uppercase text-xs mb-2">
-                            <?php echo $isEn ? 'Automation First' : 'Automatisation d\'abord'; ?>
+                    <div class="p-6 bg-stone-900/50 border border-stone-800 hover:border-white/10 transition group">
+                        <div class="text-white font-black uppercase text-xs mb-2 flex justify-between items-center">
+                            <?php echo \App\Helpers\Language::get('phil_automation_title'); ?>
+                            <span class="text-[8px] text-stone-700 font-mono">CORE_01</span>
                         </div>
                         <p class="text-stone-500 text-xs leading-relaxed">
-                            <?php echo $isEn ? 'If it happens twice, automate it. Full lifecycle focus.' : 'Si cela arrive deux fois, automatisez-le. Focus sur le cycle de vie complet.'; ?>
+                            <?php echo \App\Helpers\Language::get('phil_automation_text'); ?>
                         </p>
                     </div>
-                    <div class="p-6 bg-stone-900/50 border border-stone-800 hover:border-white/10 transition">
-                        <div class="text-white font-black uppercase text-xs mb-2">
-                            <?php echo $isEn ? 'Scalability' : 'Scalabilité'; ?>
+                    <div class="p-6 bg-stone-900/50 border border-stone-800 hover:border-white/10 transition group">
+                        <div class="text-white font-black uppercase text-xs mb-2 flex justify-between items-center">
+                            <?php echo \App\Helpers\Language::get('phil_scalability_title'); ?>
+                            <span class="text-[8px] text-stone-700 font-mono">CORE_02</span>
                         </div>
                         <p class="text-stone-500 text-xs leading-relaxed">
-                            <?php echo $isEn ? 'Designing for growth and handling high-pressure traffic.' : 'Concevoir pour la croissance et gérer les pics de trafic.'; ?>
+                            <?php echo \App\Helpers\Language::get('phil_scalability_text'); ?>
                         </p>
                     </div>
-                    <div class="p-6 bg-stone-900/50 border border-stone-800 hover:border-white/10 transition">
-                        <div class="text-white font-black uppercase text-xs mb-2">
-                            <?php echo $isEn ? 'Crisis Ready' : 'Prêt pour la crise'; ?>
+                    <div class="p-6 bg-stone-900/50 border border-stone-800 hover:border-white/10 transition group">
+                        <div class="text-white font-black uppercase text-xs mb-2 flex justify-between items-center">
+                            <?php echo \App\Helpers\Language::get('phil_crisis_title'); ?>
+                            <span class="text-[8px] text-stone-700 font-mono">CORE_03</span>
                         </div>
                         <p class="text-stone-500 text-xs leading-relaxed">
-                            <?php echo $isEn ? 'Quick thinking and decision making inherited from field experience.' : 'Réflexion rapide et prise de décision héritées de l\'expérience sur le terrain.'; ?>
+                            <?php echo \App\Helpers\Language::get('phil_crisis_text'); ?>
                         </p>
                     </div>
                 </div>

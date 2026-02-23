@@ -29,4 +29,6 @@ return [
     'phil_automation_text' => 'If it happens twice, automate it. Full lifecycle focus.',
     'phil_scalability_title' => 'Scalability',
     'phil_scalability_text' => 'Design for 10x growth from day one.',
+    'phil_crisis_title' => 'Crisis Ready',
+    'phil_crisis_text' => 'Quick thinking and decision making inherited from field experience.',
 ];

@@ -24,7 +24,9 @@ $route = trim(explode('?', $route)[0], '/');
 use App\Controllers\HomeController;
 use App\Controllers\AdminController;
 use App\Helpers\Language;
+use App\Helpers\Env;
 
+Env::load(__DIR__ . '/../.env');
 Language::init();
 
 switch ($route) {
@@ -77,6 +79,18 @@ switch ($route) {
 
     case 'admin/timeline/delete':
         (new AdminController())->timelineDelete();
+        break;
+
+    case 'admin/skill/create':
+        (new AdminController())->skillCreate();
+        break;
+
+    case 'admin/skill/edit':
+        (new AdminController())->skillEdit();
+        break;
+
+    case 'admin/skill/delete':
+        (new AdminController())->skillDelete();
         break;
 
     case 'admin/settings':

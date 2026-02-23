@@ -29,4 +29,6 @@ return [
     'phil_automation_text' => 'Si cela arrive deux fois, automatisez-le. Focus sur le cycle de vie complet.',
     'phil_scalability_title' => 'Scalabilité',
     'phil_scalability_text' => 'Conçu pour une croissance x10 dès le premier jour.',
+    'phil_crisis_title' => 'Prêt pour la Crise',
+    'phil_crisis_text' => 'Réflexion rapide et prise de décision héritées de l\'expérience opérationnelle.',
 ];

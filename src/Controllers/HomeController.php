@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Project;
 use App\Models\Setting;
 use App\Models\Timeline;
+use App\Models\Skill;
 
 class HomeController extends Controller
 {
@@ -13,11 +14,13 @@ class HomeController extends Controller
         $projects = Project::all();
         $settings = Setting::all();
         $timeline = Timeline::all();
+        $skills = Skill::all();
 
         $this->render('home', [
             'projects' => $projects,
             'settings' => $settings,
-            'timeline' => $timeline
+            'timeline' => $timeline,
+            'skills' => $skills
         ]);
     }
 

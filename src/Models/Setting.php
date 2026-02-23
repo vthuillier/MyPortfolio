@@ -13,7 +13,7 @@ class Setting
         $results = $db->query("SELECT * FROM settings")->fetchAll();
         $settings = [];
         foreach ($results as $row) {
-            $settings[$row['key']] = $row['value'];
+            $settings[$row['setting_key']] = $row['value'];
         }
         return $settings;
     }
@@ -21,7 +21,7 @@ class Setting
     public static function get($key, $default = null)
     {
         $db = Database::getConnection();
-        $stmt = $db->prepare("SELECT value FROM settings WHERE key = ?");
+        $stmt = $db->prepare("SELECT value FROM settings WHERE setting_key = ?");
         $stmt->execute([$key]);
         $row = $stmt->fetch();
         return $row ? $row['value'] : $default;
@@ -30,7 +30,7 @@ class Setting
     public static function update($key, $value)
     {
         $db = Database::getConnection();
-        $stmt = $db->prepare("UPDATE settings SET value = ? WHERE key = ?");
+        $stmt = $db->prepare("UPDATE settings SET value = ? WHERE setting_key = ?");
         return $stmt->execute([$value, $key]);
     }
 

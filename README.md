@@ -2,16 +2,16 @@
 
 Modern, high-performance dynamic portfolio built with PHP 8.2 and SQLite. Optimized for DevOps engineers and tech professionals.
 
-## 🚀 Quick Start (Docker)
+## 🚀 Quick Start (Docker Compose)
 
-The fastest way to deploy this portfolio is using Docker:
+The recommended way to deploy with a persistent database (PostgreSQL or MariaDB) is using Docker Compose:
 
 ```bash
-# Build the image
-docker build -t portfolio-devops .
+# Start the services
+docker-compose up -d
 
-# Run the container
-docker run -d -p 8080:80 --name portfolio portfolio-devops
+# Initialize the database (first-time only)
+docker-compose exec app php init_db.php
 ```
 
 Access the site at `http://localhost:8080`.
@@ -19,10 +19,10 @@ Access the site at `http://localhost:8080`.
 ## 🛠 Tech Stack
 
 - **Core**: PHP 8.2 (Custom MVC Routing)
-- **Database**: SQLite 3 (PDO)
-- **Frontend**: Tailwind CSS, Google Fonts (Outfit), Lucide-like icons
+- **Database**: SQLite 3, **PostgreSQL**, or **MariaDB/MySQL** (PDO)
+- **Frontend**: Tailwind CSS, Google Fonts (Outfit)
 - **Server**: Apache with `mod_rewrite` enabled
-- **Deployment**: Ready-to-use Dockerfile
+- **DevOps**: Docker & Docker Compose with persistent backup volumes
 
 ## 🔧 Manual Installation
 

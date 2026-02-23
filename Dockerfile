@@ -1,9 +1,10 @@
 FROM php:8.2-apache
 
-# Install SQLite dependencies
+# Install database dependencies
 RUN apt-get update && apt-get install -y \
     libsqlite3-dev \
-    && docker-php-ext-install pdo_sqlite
+    libpq-dev \
+    && docker-php-ext-install pdo_sqlite pdo_pgsql pdo_mysql
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite

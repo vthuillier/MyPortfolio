@@ -1,20 +1,44 @@
 <?php
 
-require_once __DIR__ . '/src/Config/Database.php';
+spl_autoload_register(function ($class) {
+    $prefix = 'App\\';
+    $base_dir = __DIR__ . '/src/';
+    $len = strlen($prefix);
+    if (strncmp($prefix, $class, $len) !== 0)
+        return;
+    $relative_class = substr($class, $len);
+    $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
+    if (file_exists($file))
+        require $file;
+});
 
 use App\Config\Database;
+use App\Helpers\Env;
 
+Env::load(__DIR__ . '/.env');
 $db = Database::getConnection();
+$driver = $db->getAttribute(PDO::ATTR_DRIVER_NAME);
 
-// Drop existing tables to refresh schema
+echo "Connected to $driver database.\n";
+
+// DROP TABLE syntax is mostly universal
 $db->exec("DROP TABLE IF EXISTS projects");
-$db->exec("DROP TABLE IF EXISTS settings");
-$db->exec("DROP TABLE IF EXISTS users");
 $db->exec("DROP TABLE IF EXISTS timeline");
+$db->exec("DROP TABLE IF EXISTS skills");
+$db->exec("DROP TABLE IF EXISTS users");
+$db->exec("DROP TABLE IF EXISTS settings");
+
+// Define PK according to driver
+$pk = "INTEGER PRIMARY KEY AUTOINCREMENT"; // Default for SQLite
+if ($driver === 'pgsql') {
+    $pk = "SERIAL PRIMARY KEY";
+} elseif ($driver === 'mysql' || $driver === 'mariadb') {
+    $pk = "INT AUTO_INCREMENT PRIMARY KEY";
+}
 
 // Create projects table
-$db->exec("CREATE TABLE IF NOT EXISTS projects (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+$db->exec("CREATE TABLE projects (
+    id $pk,
     title VARCHAR(255) NOT NULL,
     title_en VARCHAR(255),
     description TEXT,
@@ -26,9 +50,9 @@ $db->exec("CREATE TABLE IF NOT EXISTS projects (
 )");
 
 // Create timeline table (Experience & Education)
-$db->exec("CREATE TABLE IF NOT EXISTS timeline (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    type VARCHAR(50) NOT NULL, -- 'experience' or 'education'
+$db->exec("CREATE TABLE timeline (
+    id $pk,
+    type VARCHAR(50) NOT NULL,
     title VARCHAR(255) NOT NULL,
     title_en VARCHAR(255),
     organization VARCHAR(255),
@@ -42,8 +66,8 @@ $db->exec("CREATE TABLE IF NOT EXISTS timeline (
 )");
 
 // Create skills table
-$db->exec("CREATE TABLE IF NOT EXISTS skills (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+$db->exec("CREATE TABLE skills (
+    id $pk,
     category VARCHAR(100) NOT NULL,
     category_en VARCHAR(100),
     name VARCHAR(100) NOT NULL,
@@ -51,15 +75,16 @@ $db->exec("CREATE TABLE IF NOT EXISTS skills (
     order_index INTEGER DEFAULT 0
 )");
 
-// ... (remaining tables) ...
-$db->exec("CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+// Create users table
+$db->exec("CREATE TABLE users (
+    id $pk,
     username VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL
 )");
 
-$db->exec("CREATE TABLE IF NOT EXISTS settings (
-    key VARCHAR(100) PRIMARY KEY,
+// Create settings table
+$db->exec("CREATE TABLE settings (
+    setting_key VARCHAR(100) PRIMARY KEY,
     value TEXT
 )");
 
@@ -75,8 +100,14 @@ $settings = [
     ['social_linkedin', 'https://www.linkedin.com/in/luxferrevt/'],
     ['social_github', 'https://github.com/vthuillier/'],
     ['social_cv', 'https://valentin-thuillier.fr/CV-Valentin_THUILLIER.pdf'],
-    ['about_text', 'Diplômé d\'un BUT Informatique et expert en infrastructure cloud et automatisation. Passionné par l\'innovation et le code, j\'allie mes compétences techniques à mon engagement de sapeur-pompier volontaire, ce qui me confère une grande fiabilité et une expertise en gestion de crise et travail sous pression.'],
-    ['about_text_en', 'Graduated with a BUT in Computer Science and expert in cloud infrastructure and automation. Passionate about innovation and code, I combine my technical skills with my commitment as a volunteer firefighter, which gives me great reliability and expertise in crisis management and working under pressure.'],
+    [
+        'about_text',
+        'Diplômé d\'un BUT Informatique et expert en infrastructure cloud et automatisation. Passionné par l\'innovation et le code, j\'allie mes compétences techniques à mon engagement de sapeur-pompier volontaire, ce qui me confère une grande fiabilité et une expertise en gestion de crise et travail sous pression.'
+    ],
+    [
+        'about_text_en',
+        'Graduated with a BUT in Computer Science and expert in cloud infrastructure and automation. Passionate about innovation and code, I combine my technical skills with my commitment as a volunteer firefighter, which gives me great reliability and expertise in crisis management and working under pressure.'
+    ],
     ['hero_image', ''],
     ['about_exp1_title', 'Automation'],
     ['about_exp1_title_en', 'Automation'],
@@ -89,13 +120,12 @@ $settings = [
 ];
 
 foreach ($settings as $s) {
-    $stmt = $db->prepare("INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)");
+    // We can use simple INSERT since we dropped tables
+    $stmt = $db->prepare("INSERT INTO settings (setting_key, value) VALUES (?, ?)");
     $stmt->execute($s);
 }
 
-// Nettoyage des anciens projets pour mettre les vrais
-$db->exec("DELETE FROM projects");
-
+// Projects
 $projects = [
     [
         'title' => 'Infrastructures Cloud & Kubernetes',
@@ -131,9 +161,7 @@ foreach ($projects as $p) {
     $stmt->execute($p);
 }
 
-// Nettoyage et insertion Timeline
-$db->exec("DELETE FROM timeline");
-
+// Timeline
 $timeline = [
     [
         'type' => 'experience',
@@ -178,8 +206,7 @@ foreach ($timeline as $t) {
     $stmt->execute($t);
 }
 
-// Insert default skills
-$db->exec("DELETE FROM skills");
+// Skills
 $skills = [
     ['DevOps & CI/CD', 'DevOps & CI/CD', 'GitLab CI', 90, 1],
     ['DevOps & CI/CD', 'DevOps & CI/CD', 'Jenkins', 85, 2],
@@ -198,11 +225,9 @@ foreach ($skills as $s) {
     $stmt->execute($s);
 }
 
-echo "Database initialized with real content from valentin-thuillier.fr successfully.\n";
-
 // Create default admin
 $password = password_hash('admin123', PASSWORD_BCRYPT);
-$stmt = $db->prepare("INSERT OR IGNORE INTO users (username, password) VALUES (?, ?)");
+$stmt = $db->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
 $stmt->execute(['admin', $password]);
 
 echo "Database initialized successfully.\n";
