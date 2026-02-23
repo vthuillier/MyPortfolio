@@ -25,9 +25,13 @@ use App\Controllers\HomeController;
 use App\Controllers\AdminController;
 use App\Helpers\Language;
 use App\Helpers\Env;
+use App\Helpers\MigrationHelper;
 
 Env::load(__DIR__ . '/../.env');
 Language::init();
+
+// Auto-migrate database on request if needed
+(new MigrationHelper())->run();
 
 switch ($route) {
     case 'home':
