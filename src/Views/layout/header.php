@@ -27,8 +27,15 @@
         }
 
         @keyframes pulse-red {
-            0%, 100% { background-color: #0c0a09; }
-            50% { background-color: #2a0a0a; }
+
+            0%,
+            100% {
+                background-color: #0c0a09;
+            }
+
+            50% {
+                background-color: #2a0a0a;
+            }
         }
 
         /* Glitch Effect */
@@ -62,21 +69,55 @@
         }
 
         @keyframes glitch-anim {
-            0% { clip: rect(31px, 9999px, 94px, 0); }
-            20% { clip: rect(62px, 9999px, 42px, 0); }
-            40% { clip: rect(10px, 9999px, 51px, 0); }
-            60% { clip: rect(82px, 9999px, 12px, 0); }
-            80% { clip: rect(41px, 9999px, 75px, 0); }
-            100% { clip: rect(54px, 9999px, 7px, 0); }
+            0% {
+                clip: rect(31px, 9999px, 94px, 0);
+            }
+
+            20% {
+                clip: rect(62px, 9999px, 42px, 0);
+            }
+
+            40% {
+                clip: rect(10px, 9999px, 51px, 0);
+            }
+
+            60% {
+                clip: rect(82px, 9999px, 12px, 0);
+            }
+
+            80% {
+                clip: rect(41px, 9999px, 75px, 0);
+            }
+
+            100% {
+                clip: rect(54px, 9999px, 7px, 0);
+            }
         }
 
         @keyframes glitch-anim2 {
-            0% { clip: rect(65px, 9999px, 100px, 0); }
-            20% { clip: rect(12px, 9999px, 20px, 0); }
-            40% { clip: rect(43px, 9999px, 88px, 0); }
-            60% { clip: rect(98px, 9999px, 40px, 0); }
-            80% { clip: rect(10px, 9999px, 60px, 0); }
-            100% { clip: rect(55px, 9999px, 80px, 0); }
+            0% {
+                clip: rect(65px, 9999px, 100px, 0);
+            }
+
+            20% {
+                clip: rect(12px, 9999px, 20px, 0);
+            }
+
+            40% {
+                clip: rect(43px, 9999px, 88px, 0);
+            }
+
+            60% {
+                clip: rect(98px, 9999px, 40px, 0);
+            }
+
+            80% {
+                clip: rect(10px, 9999px, 60px, 0);
+            }
+
+            100% {
+                clip: rect(55px, 9999px, 80px, 0);
+            }
         }
 
         /* CRT Flicker */
@@ -96,27 +137,89 @@
         }
 
         @keyframes flicker {
-            0% { opacity: 0.27; }
-            5% { opacity: 0.34; }
-            10% { opacity: 0.23; }
-            15% { opacity: 0.90; }
-            20% { opacity: 0.18; }
-            25% { opacity: 0.83; }
-            30% { opacity: 0.65; }
-            35% { opacity: 0.57; }
-            40% { opacity: 0.26; }
-            45% { opacity: 0.84; }
-            50% { opacity: 0.96; }
-            55% { opacity: 0.08; }
-            60% { opacity: 0.20; }
-            65% { opacity: 0.71; }
-            70% { opacity: 0.53; }
-            75% { opacity: 0.37; }
-            80% { opacity: 0.71; }
-            85% { opacity: 0.70; }
-            90% { opacity: 0.70; }
-            95% { opacity: 0.36; }
-            100% { opacity: 0.24; }
+            0% {
+                opacity: 0.27;
+            }
+
+            5% {
+                opacity: 0.34;
+            }
+
+            10% {
+                opacity: 0.23;
+            }
+
+            15% {
+                opacity: 0.90;
+            }
+
+            20% {
+                opacity: 0.18;
+            }
+
+            25% {
+                opacity: 0.83;
+            }
+
+            30% {
+                opacity: 0.65;
+            }
+
+            35% {
+                opacity: 0.57;
+            }
+
+            40% {
+                opacity: 0.26;
+            }
+
+            45% {
+                opacity: 0.84;
+            }
+
+            50% {
+                opacity: 0.96;
+            }
+
+            55% {
+                opacity: 0.08;
+            }
+
+            60% {
+                opacity: 0.20;
+            }
+
+            65% {
+                opacity: 0.71;
+            }
+
+            70% {
+                opacity: 0.53;
+            }
+
+            75% {
+                opacity: 0.37;
+            }
+
+            80% {
+                opacity: 0.71;
+            }
+
+            85% {
+                opacity: 0.70;
+            }
+
+            90% {
+                opacity: 0.70;
+            }
+
+            95% {
+                opacity: 0.36;
+            }
+
+            100% {
+                opacity: 0.24;
+            }
         }
 
         body {
@@ -337,6 +440,3 @@
             }
         });
     </script>
-</body>
-
-</html>

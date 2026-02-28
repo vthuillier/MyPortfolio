@@ -13,7 +13,22 @@ spl_autoload_register(function ($class) {
         require $file;
 });
 
+// Security Headers
+header("X-Content-Type-Options: nosniff");
+header("X-Frame-Options: SAMEORIGIN");
+header("X-XSS-Protection: 1; mode=block");
+header("Referrer-Policy: strict-origin-when-cross-origin");
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:;");
+
+// Secure Session Configuration
+ini_set('session.cookie_httponly', 1);
+ini_set('session.use_only_cookies', 1);
+if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+    ini_set('session.cookie_secure', 1);
+}
+
 session_start();
+
 
 // Handle request routing
 $uri = $_SERVER['REQUEST_URI'];
@@ -33,7 +48,24 @@ Language::init();
 // Auto-migrate database on request if needed
 (new MigrationHelper())->run();
 
+use App\Controllers\SetupController;
+use App\Models\User;
+
+// Check if setup is needed
+if (User::count() === 0 && !in_array($route, ['setup', 'setup/submit'])) {
+    (new SetupController())->index();
+    exit;
+}
+
 switch ($route) {
+    case 'setup':
+        (new SetupController())->index();
+        break;
+
+    case 'setup/submit':
+        (new SetupController())->submit();
+        break;
+
     case 'home':
     case 'index.php':
     case '':

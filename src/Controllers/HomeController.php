@@ -28,8 +28,17 @@ class HomeController extends Controller
     {
         // Handle contact form submission (simplified)
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Send email or save message
+            if (!\App\Helpers\Csrf::verifyToken($_POST['csrf_token'] ?? '')) {
+                $this->redirect('/?error=csrf');
+            }
+            // Log the message for now
+            $name = $_POST['name'] ?? 'Anonymous';
+            $email = $_POST['email'] ?? 'No email';
+            $msg = $_POST['message'] ?? 'No message';
+            error_log("Contact message from $name ($email): $msg");
+
             $this->redirect('/?success=1');
+
         }
     }
 }

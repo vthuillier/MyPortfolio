@@ -17,7 +17,10 @@ COPY . .
 
 # Adjust permissions for uploads and database
 RUN mkdir -p public/uploads database && \
-    chmod -R 777 public/uploads database
+    chown -R www-data:www-data /var/www/html && \
+    chmod -R 755 /var/www/html && \
+    chmod -R 775 public/uploads database
+
 
 # Configure Apache to serve the public directory
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public

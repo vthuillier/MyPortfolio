@@ -22,7 +22,15 @@ class AdminController extends Controller
 
         if ($route !== 'login' && $route !== 'authenticate' && $route !== '') {
             Auth::requireAuth();
+
+            // Global CSRF check for all POST requests in admin
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                if (!\App\Helpers\Csrf::verifyToken($_POST['csrf_token'] ?? '')) {
+                    die("Erreur de sécurité CSRF.");
+                }
+            }
         }
+
     }
 
     public function login()
@@ -36,14 +44,20 @@ class AdminController extends Controller
     public function authenticate()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!\App\Helpers\Csrf::verifyToken($_POST['csrf_token'] ?? '')) {
+                return $this->render('admin/login', ['error' => 'Erreur de sécurité CSRF.']);
+            }
+
             $username = $_POST['username'] ?? '';
             $password = $_POST['password'] ?? '';
 
             $user = User::authenticate($username, $password);
             if ($user) {
+                session_regenerate_id(true);
                 Auth::login($user['id'], $user['username']);
                 $this->redirect('/admin');
             } else {
+
                 $this->render('admin/login', ['error' => 'Identifiants incorrects']);
             }
         }

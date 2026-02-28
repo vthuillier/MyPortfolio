@@ -23,4 +23,16 @@ class User
         }
         return false;
     }
+    public static function count()
+    {
+        $db = Database::getConnection();
+        return (int) $db->query("SELECT COUNT(*) FROM users")->fetchColumn();
+    }
+
+    public static function create($username, $password)
+    {
+        $db = Database::getConnection();
+        $stmt = $db->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
+        return $stmt->execute([$username, password_hash($password, PASSWORD_DEFAULT)]);
+    }
 }

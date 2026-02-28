@@ -46,6 +46,8 @@
             </h1>
 
             <form action="" method="POST" class="space-y-8">
+                <?php echo \App\Helpers\Csrf::field(); ?>
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="space-y-2">
                         <label

@@ -128,7 +128,6 @@ class VTerminal {
 
         this.input.parentElement.classList.remove('hidden');
         this.isTyping = false;
-        this.input.focus();
     }
 
     handleCommand(cmd) {
@@ -156,8 +155,8 @@ class VTerminal {
 
         this.input.parentElement.classList.remove('hidden');
         this.isTyping = false;
-        this.input.focus();
     }
+
 
     print(text) {
         const line = document.createElement('div');

@@ -80,8 +80,8 @@ $isEn = \App\Helpers\Language::getCurrent() === 'en';
                         <div class="terminal-output mb-4"></div>
                         <div class="flex items-center space-x-2">
                             <span class="terminal-prefix text-yellow-400 font-bold">visitor@valentin:~$</span>
-                            <input type="text" class="bg-transparent border-none outline-none flex-1 text-white"
-                                autofocus>
+                            <input type="text" class="bg-transparent border-none outline-none flex-1 text-white">
+
                         </div>
                     </div>
                 </div>
@@ -374,6 +374,8 @@ $isEn = \App\Helpers\Language::getCurrent() === 'en';
                 </div>
 
                 <form action="/contact" method="POST" class="space-y-6">
+                    <?php echo \App\Helpers\Csrf::field(); ?>
+
                     <?php if (isset($_GET['success'])): ?>
                         <div class="bg-yellow-400 text-black px-6 py-4 font-black uppercase tracking-tighter text-sm mb-6">
                             <?php echo \App\Helpers\Language::get('contact_success'); ?>

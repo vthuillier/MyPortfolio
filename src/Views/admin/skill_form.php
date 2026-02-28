@@ -35,6 +35,8 @@
         </h2>
 
         <form action="" method="POST" class="glass-card p-8 rounded-sm space-y-6">
+            <?php echo \App\Helpers\Csrf::field(); ?>
+
             <div class="grid grid-cols-2 gap-6">
                 <div class="space-y-2">
                     <label class="block text-[10px] font-black text-stone-500 uppercase tracking-widest">Catégorie

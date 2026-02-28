@@ -204,7 +204,8 @@
                                             </span>
                                         </td>
                                         <td class="px-6 py-4 font-bold text-stone-200">
-                                            <?php echo htmlspecialchars($skill['name']); ?></td>
+                                            <?php echo htmlspecialchars($skill['name']); ?>
+                                        </td>
                                         <td class="px-6 py-4">
                                             <div class="flex items-center space-x-2">
                                                 <div class="w-20 h-1 bg-stone-900">
@@ -233,7 +234,10 @@
             <!-- Settings Section -->
             <div class="space-y-10">
                 <h2 class="text-3xl font-black uppercase tracking-tighter">System Configuration</h2>
-                <form action="/admin/settings" method="POST" class="glass-card p-8 rounded-sm space-y-6">
+                <form action="/admin/settings" method="POST" enctype="multipart/form-data"
+                    class="glass-card p-8 rounded-sm space-y-6">
+                    <?php echo \App\Helpers\Csrf::field(); ?>
+
                     <div class="space-y-2">
                         <label class="block text-[10px] font-black text-stone-500 uppercase tracking-widest">Identity
                             Manifest</label>

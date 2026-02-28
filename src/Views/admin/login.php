@@ -42,10 +42,13 @@
         <?php if (isset($error)): ?>
             <div
                 class="bg-red-600/10 border border-red-600/20 text-red-500 p-4 rounded-sm mb-6 text-xs font-bold uppercase tracking-wider text-center">
-                <?php echo $error; ?></div>
+                <?php echo $error; ?>
+            </div>
         <?php endif; ?>
 
         <form action="/login" method="POST" class="space-y-6">
+            <?php echo \App\Helpers\Csrf::field(); ?>
+
             <div class="space-y-2">
                 <label class="block text-[10px] font-black text-stone-500 uppercase tracking-widest">Opérateur</label>
                 <input type="text" name="username" required
