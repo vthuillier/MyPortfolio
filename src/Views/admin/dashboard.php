@@ -206,9 +206,11 @@
                                         </td>
                                         <td class="px-6 py-4">
                                             <div class="font-bold text-stone-200">
-                                                <?php echo htmlspecialchars($msg['name']); ?></div>
+                                                <?php echo htmlspecialchars($msg['name']); ?>
+                                            </div>
                                             <div class="text-[10px] text-stone-500 font-mono">
-                                                <?php echo htmlspecialchars($msg['email']); ?></div>
+                                                <?php echo htmlspecialchars($msg['email']); ?>
+                                            </div>
                                         </td>
                                         <td class="px-6 py-4">
                                             <div class="text-stone-400 text-xs line-clamp-2 max-w-md">
@@ -326,6 +328,22 @@
                             value="<?php echo htmlspecialchars($settings['user_job'] ?? ''); ?>"
                             class="w-full px-4 py-3 bg-stone-900/50 border border-stone-800 focus:border-yellow-400 outline-none transition text-white text-sm">
                     </div>
+                    <div class="space-y-4 pt-4 border-t border-stone-800">
+                        <div class="space-y-2">
+                            <label
+                                class="block text-[10px] font-black text-stone-500 uppercase tracking-widest">Metadata /
+                                SEO (FR)</label>
+                            <textarea name="meta_description" rows="2"
+                                class="w-full px-4 py-3 bg-stone-900/50 border border-stone-800 focus:border-yellow-400 outline-none transition text-white text-sm"><?php echo htmlspecialchars($settings['meta_description'] ?? ''); ?></textarea>
+                        </div>
+                        <div class="space-y-2">
+                            <label
+                                class="block text-[10px] font-black text-stone-500 uppercase tracking-widest">Metadata /
+                                SEO (EN)</label>
+                            <textarea name="meta_description_en" rows="2"
+                                class="w-full px-4 py-3 bg-stone-900/50 border border-stone-800 focus:border-yellow-400 outline-none transition text-white text-sm"><?php echo htmlspecialchars($settings['meta_description_en'] ?? ''); ?></textarea>
+                        </div>
+                    </div>
                     <div class="space-y-2">
                         <label class="block text-[10px] font-black text-stone-500 uppercase tracking-widest">Designation
                             Title (EN)</label>
@@ -371,6 +389,58 @@
                                 Rapport / Bio (EN)</label>
                             <textarea name="about_text_en" rows="3"
                                 class="w-full px-4 py-3 bg-stone-900/50 border border-stone-800 focus:border-yellow-400 outline-none transition text-white text-sm"><?php echo htmlspecialchars($settings['about_text_en'] ?? ''); ?></textarea>
+                        </div>
+                    </div>
+                    <div class="space-y-4 pt-4 border-t border-stone-800">
+                        <h3 class="text-[10px] font-black text-stone-400 uppercase tracking-widest">System Files</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="space-y-2">
+                                <label
+                                    class="block text-[9px] font-bold text-stone-500 uppercase tracking-widest">Curriculum
+                                    Vitae (PDF/Doc)</label>
+                                <input type="file" name="cv_file"
+                                    class="w-full text-xs text-stone-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:text-[10px] file:font-black file:uppercase file:bg-stone-800 file:text-stone-300 hover:file:bg-stone-700 transition">
+                                <?php if (!empty($settings['social_cv'])): ?>
+                                    <div class="text-[8px] text-green-500 font-mono">CURRENT:
+                                        <?php echo basename($settings['social_cv']); ?></div>
+                                <?php endif; ?>
+                            </div>
+                            <div class="space-y-2">
+                                <label
+                                    class="block text-[9px] font-bold text-stone-500 uppercase tracking-widest">Station
+                                    Icon (Favicon)</label>
+                                <input type="file" name="favicon"
+                                    class="w-full text-xs text-stone-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:text-[10px] file:font-black file:uppercase file:bg-stone-800 file:text-stone-300 hover:file:bg-stone-700 transition">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-4 pt-4 border-t border-stone-800">
+                        <h3 class="text-[10px] font-black text-stone-400 uppercase tracking-widest">Network Links</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="space-y-2">
+                                <label
+                                    class="block text-[9px] font-bold text-stone-500 uppercase tracking-widest">GitHub
+                                    URL</label>
+                                <input type="text" name="social_github"
+                                    value="<?php echo htmlspecialchars($settings['social_github'] ?? ''); ?>"
+                                    class="w-full px-4 py-2 bg-stone-900/50 border border-stone-800 focus:border-yellow-400 outline-none text-white text-xs">
+                            </div>
+                            <div class="space-y-2">
+                                <label
+                                    class="block text-[9px] font-bold text-stone-500 uppercase tracking-widest">LinkedIn
+                                    URL</label>
+                                <input type="text" name="social_linkedin"
+                                    value="<?php echo htmlspecialchars($settings['social_linkedin'] ?? ''); ?>"
+                                    class="w-full px-4 py-2 bg-stone-900/50 border border-stone-800 focus:border-yellow-400 outline-none text-white text-xs">
+                            </div>
+                            <div class="space-y-2">
+                                <label
+                                    class="block text-[9px] font-bold text-stone-500 uppercase tracking-widest">Twitter
+                                    / X URL</label>
+                                <input type="text" name="social_twitter"
+                                    value="<?php echo htmlspecialchars($settings['social_twitter'] ?? ''); ?>"
+                                    class="w-full px-4 py-2 bg-stone-900/50 border border-stone-800 focus:border-yellow-400 outline-none text-white text-xs">
+                            </div>
                         </div>
                     </div>
                     <div class="space-y-4 pt-4 border-t border-stone-800">

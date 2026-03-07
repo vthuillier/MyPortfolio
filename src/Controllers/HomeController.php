@@ -26,6 +26,26 @@ class HomeController extends Controller
         ]);
     }
 
+    public function cvDownload()
+    {
+        $cvPath = Setting::get('social_cv');
+        if ($cvPath) {
+            $fullPath = __DIR__ . '/../../public/' . $cvPath;
+            if (file_exists($fullPath)) {
+                header('Content-Description: File Transfer');
+                header('Content-Type: application/pdf');
+                header('Content-Disposition: attachment; filename="' . basename($fullPath) . '"');
+                header('Expires: 0');
+                header('Cache-Control: must-revalidate');
+                header('Pragma: public');
+                header('Content-Length: ' . filesize($fullPath));
+                readfile($fullPath);
+                exit;
+            }
+        }
+        $this->redirect('/?error=no_cv');
+    }
+
     public function contact()
     {
         // Handle contact form submission

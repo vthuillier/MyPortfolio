@@ -72,6 +72,10 @@ switch ($route) {
         (new HomeController())->index();
         break;
 
+    case 'cv-download':
+        (new HomeController())->cvDownload();
+        break;
+
     case 'contact':
         (new HomeController())->contact();
         break;

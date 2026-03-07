@@ -198,12 +198,30 @@ class AdminController extends Controller
     public function settingsUpdate()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            Setting::updateMany($_POST);
+            $data = $_POST;
+
+            // Handle CV Upload
+            if (!empty($_FILES['cv_file']['name'])) {
+                $cvPath = $this->handleUpload($_FILES['cv_file'], ['pdf', 'doc', 'docx']);
+                if ($cvPath) {
+                    $data['social_cv'] = $cvPath;
+                }
+            }
+
+            // Handle Favicon Upload
+            if (!empty($_FILES['favicon']['name'])) {
+                $favPath = $this->handleUpload($_FILES['favicon'], ['ico', 'png', 'svg']);
+                if ($favPath) {
+                    $data['favicon'] = $favPath;
+                }
+            }
+
+            Setting::updateMany($data);
             $this->redirect('/admin');
         }
     }
 
-    private function handleUpload($file)
+    private function handleUpload($file, $allowed = ['jpg', 'png', 'jpeg', 'gif', 'webp'])
     {
         if (empty($file['name']))
             return null;
@@ -217,10 +235,9 @@ class AdminController extends Controller
         $targetFile = $targetDir . $fileName;
 
         // Basic security check
-        $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-        $allowed = ['jpg', 'png', 'jpeg', 'gif', 'webp'];
+        $fileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
-        if (in_array($imageFileType, $allowed)) {
+        if (in_array($fileType, $allowed)) {
             if (move_uploaded_file($file["tmp_name"], $targetFile)) {
                 return "uploads/" . $fileName;
             }

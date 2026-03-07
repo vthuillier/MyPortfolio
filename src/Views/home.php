@@ -37,7 +37,7 @@ $isEn = \App\Helpers\Language::getCurrent() === 'en';
             <div class="flex flex-wrap gap-4">
                 <a href="#projects"
                     class="accent-bg-yellow text-black px-10 py-5 rounded-sm font-black uppercase tracking-widest hover:bg-white transition duration-300"><?php echo \App\Helpers\Language::get('hero_browse'); ?></a>
-                <a href="<?php echo $settings['social_cv'] ?? '#'; ?>"
+                <a href="/cv-download"
                     class="px-10 py-5 border border-stone-800 text-white rounded-sm font-black uppercase tracking-widest hover:border-red-600 hover:text-red-500 transition duration-300"><?php echo \App\Helpers\Language::get('hero_cv'); ?></a>
             </div>
         </div>

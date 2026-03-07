@@ -4,7 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php
+    $currentLang = \App\Helpers\Language::getCurrent();
+    $isEn = $currentLang === 'en';
+    $metaDesc = $isEn ? ($settings['meta_description_en'] ?? $settings['meta_description'] ?? '') : ($settings['meta_description'] ?? '');
+    ?>
     <title><?php echo $settings['site_title'] ?? 'Valentin Thuillier'; ?></title>
+    <meta name="description" content="<?php echo htmlspecialchars($metaDesc); ?>">
+
+    <!-- Open Graph -->
+    <meta property="og:title"
+        content="<?php echo htmlspecialchars($settings['site_title'] ?? 'Valentin Thuillier'); ?>">
+    <meta property="og:description" content="<?php echo htmlspecialchars($metaDesc); ?>">
+    <meta property="og:type" content="website">
+
+    <!-- Favicon -->
+    <?php if (!empty($settings['favicon'])): ?>
+        <link rel="icon" type="image/<?php echo pathinfo($settings['favicon'], PATHINFO_EXTENSION); ?>"
+            href="/<?php echo $settings['favicon']; ?>">
+    <?php endif; ?>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <link
