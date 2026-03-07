@@ -166,6 +166,80 @@
                     </div>
                 </div>
 
+                <!-- Messages Section -->
+                <div class="space-y-10 pt-10 border-t border-stone-800">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-3xl font-black uppercase tracking-tighter">Transmission Logs (Messages)</h2>
+                    </div>
+
+                    <div class="glass-card rounded-sm overflow-hidden border border-stone-800">
+                        <table class="min-w-full divide-y divide-stone-800">
+                            <thead class="bg-stone-900/50">
+                                <tr>
+                                    <th
+                                        class="px-6 py-4 text-left text-[10px] font-black text-stone-500 uppercase tracking-widest">
+                                        Status</th>
+                                    <th
+                                        class="px-6 py-4 text-left text-[10px] font-black text-stone-500 uppercase tracking-widest">
+                                        Origin</th>
+                                    <th
+                                        class="px-6 py-4 text-left text-[10px] font-black text-stone-500 uppercase tracking-widest">
+                                        Payload</th>
+                                    <th
+                                        class="px-6 py-4 text-left text-[10px] font-black text-stone-500 uppercase tracking-widest">
+                                        Date</th>
+                                    <th
+                                        class="px-6 py-4 text-right text-[10px] font-black text-stone-500 uppercase tracking-widest">
+                                        Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-800">
+                                <?php foreach ($messages as $msg): ?>
+                                    <tr
+                                        class="hover:bg-white/5 transition <?php echo $msg['is_read'] ? 'opacity-60' : ''; ?>">
+                                        <td class="px-6 py-4">
+                                            <?php if (!$msg['is_read']): ?>
+                                                <span class="flex h-2 w-2 rounded-full bg-yellow-400"></span>
+                                            <?php else: ?>
+                                                <span class="flex h-2 w-2 rounded-full bg-stone-700"></span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="font-bold text-stone-200">
+                                                <?php echo htmlspecialchars($msg['name']); ?></div>
+                                            <div class="text-[10px] text-stone-500 font-mono">
+                                                <?php echo htmlspecialchars($msg['email']); ?></div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="text-stone-400 text-xs line-clamp-2 max-w-md">
+                                                <?php echo nl2br(htmlspecialchars($msg['message'])); ?>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 text-stone-500 text-[10px] font-mono whitespace-nowrap">
+                                            <?php echo date('Y-m-d H:i', strtotime($msg['created_at'])); ?>
+                                        </td>
+                                        <td class="px-6 py-4 text-right space-x-3 whitespace-nowrap">
+                                            <?php if (!$msg['is_read']): ?>
+                                                <a href="/admin/message/read?id=<?php echo $msg['id']; ?>"
+                                                    class="text-yellow-400 hover:text-white transition text-[10px] font-black uppercase tracking-widest">Mark
+                                                    read</a>
+                                            <?php endif; ?>
+                                            <a href="/admin/message/delete?id=<?php echo $msg['id']; ?>"
+                                                onclick="return confirm('Erase transmission record?')"
+                                                class="text-red-900 hover:text-red-500 transition text-[10px] font-black uppercase tracking-widest">Erase</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                        <?php if (empty($messages)): ?>
+                            <div class="p-10 text-center text-stone-600 font-mono text-xs italic">
+                                NO INCOMING TRANSMISSIONS DETECTED.
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
                 <!-- Technical Expertise Section -->
                 <div class="space-y-10 pt-10 border-t border-stone-800">
                     <div class="flex justify-between items-center">

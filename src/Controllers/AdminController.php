@@ -7,6 +7,7 @@ use App\Models\Setting;
 use App\Models\User;
 use App\Models\Timeline;
 use App\Models\Skill;
+use App\Models\Message;
 use App\Helpers\Auth;
 
 class AdminController extends Controller
@@ -75,12 +76,28 @@ class AdminController extends Controller
         $settings = Setting::all();
         $timeline = Timeline::all();
         $skills = Skill::all();
+        $messages = Message::all();
         $this->render('admin/dashboard', [
             'projects' => $projects,
             'settings' => $settings,
             'timeline' => $timeline,
-            'skills' => $skills
+            'skills' => $skills,
+            'messages' => $messages
         ]);
+    }
+
+    public function messageRead()
+    {
+        $id = $_GET['id'] ?? null;
+        Message::markAsRead($id);
+        $this->redirect('/admin');
+    }
+
+    public function messageDelete()
+    {
+        $id = $_GET['id'] ?? null;
+        Message::delete($id);
+        $this->redirect('/admin');
     }
 
     public function projectCreate()

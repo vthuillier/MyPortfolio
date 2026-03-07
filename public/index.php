@@ -129,6 +129,14 @@ switch ($route) {
         (new AdminController())->skillDelete();
         break;
 
+    case 'admin/message/read':
+        (new AdminController())->messageRead();
+        break;
+
+    case 'admin/message/delete':
+        (new AdminController())->messageDelete();
+        break;
+
     case 'admin/settings':
         (new AdminController())->settingsUpdate();
         break;
