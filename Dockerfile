@@ -1,19 +1,28 @@
 FROM php:8.2-apache
 
-# Install database dependencies
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     libsqlite3-dev \
     libpq-dev \
-    && docker-php-ext-install pdo_sqlite pdo_pgsql pdo_mysql
+    git \
+    unzip \
+    libzip-dev \
+    && docker-php-ext-install pdo_sqlite pdo_pgsql pdo_mysql zip
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Set working directory
 WORKDIR /var/www/html
 
 # Copy project files
 COPY . .
+
+# Install PHP dependencies
+RUN composer install --no-dev --optimize-autoloader
 
 # Adjust permissions for uploads and database
 RUN mkdir -p public/uploads database && \

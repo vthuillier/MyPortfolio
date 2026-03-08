@@ -1,6 +1,11 @@
 <?php
 
 // Basic Router and Autoloader
+// Load Composer autoloader
+if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    require_once __DIR__ . '/../vendor/autoload.php';
+}
+
 spl_autoload_register(function ($class) {
     $prefix = 'App\\';
     $base_dir = __DIR__ . '/../src/';
@@ -58,6 +63,10 @@ if (User::count() === 0 && !in_array($route, ['setup', 'setup/submit'])) {
 }
 
 switch ($route) {
+    case 'sitemap.xml':
+        (new \App\Controllers\SitemapController())->index();
+        break;
+
     case 'setup':
         (new SetupController())->index();
         break;

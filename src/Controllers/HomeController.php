@@ -61,6 +61,9 @@ class HomeController extends Controller
             ];
 
             if (Message::create($data)) {
+                // Send email notification
+                \App\Helpers\MailerHelper::sendContactNotification($data);
+
                 $this->redirect('/?success=1');
             } else {
                 $this->redirect('/?error=database');

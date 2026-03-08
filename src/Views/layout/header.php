@@ -330,6 +330,10 @@
             left: 100%;
         }
     </style>
+
+    <?php if (!empty($settings['analytics_script'])): ?>
+        <?php echo $settings['analytics_script']; ?>
+    <?php endif; ?>
 </head>
 
 <body class="selection:bg-yellow-400/30 selection:text-yellow-900 overflow-x-hidden">

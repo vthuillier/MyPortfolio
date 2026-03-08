@@ -321,6 +321,17 @@
                             value="<?php echo htmlspecialchars($settings['user_name'] ?? ''); ?>"
                             class="w-full px-4 py-3 bg-stone-900/50 border border-stone-800 focus:border-yellow-400 outline-none transition text-white text-sm">
                     </div>
+
+                    <div class="space-y-4 pt-4 border-t border-stone-800">
+                        <div class="space-y-2">
+                            <label
+                                class="block text-[10px] font-black text-stone-500 uppercase tracking-widest">Analytics
+                                Script (Plasisuble, etc.)</label>
+                            <textarea name="analytics_script" rows="2"
+                                placeholder="<!-- <script defer data-domain='...' src='...'></script> -->"
+                                class="w-full px-4 py-3 bg-stone-900/50 border border-stone-800 focus:border-yellow-400 outline-none transition text-stone-400 font-mono text-xs"><?php echo htmlspecialchars($settings['analytics_script'] ?? ''); ?></textarea>
+                        </div>
+                    </div>
                     <div class="space-y-2">
                         <label class="block text-[10px] font-black text-stone-500 uppercase tracking-widest">Designation
                             Title (FR)</label>
@@ -402,7 +413,8 @@
                                     class="w-full text-xs text-stone-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:text-[10px] file:font-black file:uppercase file:bg-stone-800 file:text-stone-300 hover:file:bg-stone-700 transition">
                                 <?php if (!empty($settings['social_cv'])): ?>
                                     <div class="text-[8px] text-green-500 font-mono">CURRENT:
-                                        <?php echo basename($settings['social_cv']); ?></div>
+                                        <?php echo basename($settings['social_cv']); ?>
+                                    </div>
                                 <?php endif; ?>
                             </div>
                             <div class="space-y-2">

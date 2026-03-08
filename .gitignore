@@ -1,3 +1,7 @@
 database/*.sqlite
 public/uploads/*
 .DS_Store
+
+# Environment and Dependencies
+.env
+vendor/
