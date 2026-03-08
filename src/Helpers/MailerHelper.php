@@ -32,6 +32,7 @@ class MailerHelper
             $email = (new Email())
                 ->from($_ENV['MAIL_FROM_ADDRESS'] ?? 'hello@example.com')
                 ->to($toEmail)
+                ->replyTo($data['email'])
                 ->subject('Nouveau message de contact : ' . $appName)
                 ->text(
                     "Vous avez reçu un nouveau message de contact sur votre portfolio.\n\n" .
@@ -41,6 +42,25 @@ class MailerHelper
                 );
 
             $mailer->send($email);
+
+            // Send recap to the user
+            $userEmail = (new Email())
+                ->from($_ENV['MAIL_FROM_ADDRESS'] ?? 'hello@example.com')
+                ->to($data['email'])
+                ->subject('Confirmation de votre message - ' . $appName)
+                ->text(
+                    "Bonjour " . $data['name'] . ",\n\n" .
+                    "Votre message a bien été reçu. Voici un récapitulatif de votre demande :\n\n" .
+                    "--------------------------------------------------\n" .
+                    $data['message'] . "\n" .
+                    "--------------------------------------------------\n\n" .
+                    "Je reviendrai vers vous dans les plus brefs délais.\n\n" .
+                    "Cordialement,\n" .
+                    (Setting::get('user_name') ?: 'Valentin Thuillier')
+                );
+
+            $mailer->send($userEmail);
+
             return true;
         } catch (\Exception $e) {
             error_log("Mail Error: " . $e->getMessage());
