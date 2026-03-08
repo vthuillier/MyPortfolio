@@ -30,8 +30,18 @@ class Setting
     public static function update($key, $value)
     {
         $db = Database::getConnection();
-        $stmt = $db->prepare("UPDATE settings SET value = ? WHERE setting_key = ?");
-        return $stmt->execute([$value, $key]);
+
+        $stmt = $db->prepare("SELECT COUNT(*) FROM settings WHERE setting_key = ?");
+        $stmt->execute([$key]);
+        $exists = $stmt->fetchColumn() > 0;
+
+        if ($exists) {
+            $stmt = $db->prepare("UPDATE settings SET value = ? WHERE setting_key = ?");
+            return $stmt->execute([$value, $key]);
+        } else {
+            $stmt = $db->prepare("INSERT INTO settings (setting_key, value) VALUES (?, ?)");
+            return $stmt->execute([$key, $value]);
+        }
     }
 
     public static function updateMany($data)

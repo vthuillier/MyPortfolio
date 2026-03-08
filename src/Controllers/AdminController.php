@@ -199,6 +199,7 @@ class AdminController extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = $_POST;
+            unset($data['csrf_token']);
 
             // Handle CV Upload
             if (!empty($_FILES['cv_file']['name'])) {
