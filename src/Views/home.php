@@ -23,6 +23,34 @@ $isEn = \App\Helpers\Language::getCurrent() === 'en';
                 <?php echo str_replace(' ', '<br>', strtoupper($settings['user_name'] ?? 'VALENTIN THUILLIER')); ?>
             </h1>
 
+            <?php if (isset($_GET['error'])): ?>
+                <div
+                    class="mb-8 w-full max-w-lg bg-red-900/50 border border-red-500 text-red-200 px-6 py-4 font-mono text-xs uppercase tracking-widest backdrop-blur-md relative overflow-hidden group">
+                    <div class="absolute inset-0 bg-red-500/10 group-hover:bg-red-500/20 transition-colors"></div>
+                    <div class="relative flex items-start space-x-3">
+                        <svg class="w-5 h-5 flex-shrink-0 text-red-500 animate-pulse" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                            </path>
+                        </svg>
+                        <div>
+                            <span class="font-black text-red-500 block mb-1">SYSTEM ALERT //</span>
+                            <?php
+                            if ($_GET['error'] === 'no_cv')
+                                echo "LE MANIFESTE (CV) N'EST PAS ENCORE DISPONIBLE DANS LA BASE DE DONNÉES.";
+                            elseif ($_GET['error'] === 'csrf')
+                                echo "PARAMÈTRES DE SÉCURITÉ INVALIDE. VEUILLEZ RÉESSAYER.";
+                            elseif ($_GET['error'] === 'database')
+                                echo "ÉCHEC DE TRANSMISSION. LA BASE DE DONNÉES EST INACCESSIBLE.";
+                            else
+                                echo htmlspecialchars($_GET['error']);
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+
             <div class="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-8 mb-12">
                 <p class="text-xl text-stone-400 font-medium tracking-tight">
                     <?php echo $isEn ? ($settings['user_job_en'] ?? $settings['user_job']) : $settings['user_job']; ?>
