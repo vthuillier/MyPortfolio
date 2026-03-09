@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Timeline;
 use App\Models\Skill;
 use App\Models\Message;
+use App\Models\Analytics;
 use App\Helpers\Auth;
 
 class AdminController extends Controller
@@ -77,12 +78,21 @@ class AdminController extends Controller
         $timeline = Timeline::all();
         $skills = Skill::all();
         $messages = Message::all();
+
+        $stats = [
+            'total_visits' => Analytics::getTotalVisits(),
+            'total_downloads' => Analytics::getTotalDownloads(),
+            'visits_daily' => Analytics::getVisitStats(14),
+            'downloads_daily' => Analytics::getDownloadStats(14)
+        ];
+
         $this->render('admin/dashboard', [
             'projects' => $projects,
             'settings' => $settings,
             'timeline' => $timeline,
             'skills' => $skills,
-            'messages' => $messages
+            'messages' => $messages,
+            'stats' => $stats
         ]);
     }
 

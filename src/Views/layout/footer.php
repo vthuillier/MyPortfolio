@@ -14,6 +14,9 @@
                     class="text-slate-500 hover:text-white transition-colors text-xs font-black uppercase tracking-widest">Twitter
                     / X</a>
             <?php endif; ?>
+            <a href="/legal"
+                class="text-slate-500 hover:text-yellow-400 transition-colors text-xs font-black uppercase tracking-widest">Mentions
+                Légales</a>
         </div>
         <p class="text-slate-600 text-sm font-medium uppercase tracking-[0.25em]">
             Nord, France • © <?php echo date('Y'); ?> <?php echo $settings['site_title'] ?? 'Valentin Thuillier'; ?>

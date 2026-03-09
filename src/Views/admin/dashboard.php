@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin - Valentin Thuillier</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -47,6 +48,54 @@
 
     <main class="max-w-7xl mx-auto px-6 py-16">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            <!-- Stats Section -->
+            <div class="lg:col-span-3 space-y-10">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-3xl font-black uppercase tracking-tighter">System Analytics</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <!-- Total Visits Card -->
+                    <div class="glass-card p-6 border-l-4 border-yellow-400">
+                        <div class="text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">Total Visits
+                        </div>
+                        <div class="text-4xl font-black text-white"><?php echo number_format($stats['total_visits']); ?>
+                        </div>
+                    </div>
+
+                    <!-- CV Downloads Card -->
+                    <div class="glass-card p-6 border-l-4 border-red-600">
+                        <div class="text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">Manifest
+                            Downloads (CV)</div>
+                        <div class="text-4xl font-black text-white">
+                            <?php echo number_format($stats['total_downloads']); ?></div>
+                    </div>
+
+                    <!-- Messages Card -->
+                    <div class="glass-card p-6 border-l-4 border-stone-600">
+                        <div class="text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">Feedback
+                            Received</div>
+                        <div class="text-4xl font-black text-white"><?php echo count($messages); ?></div>
+                    </div>
+
+                    <!-- Projects Card -->
+                    <div class="glass-card p-6 border-l-4 border-stone-400">
+                        <div class="text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">Active
+                            Interventions</div>
+                        <div class="text-4xl font-black text-white"><?php echo count($projects); ?></div>
+                    </div>
+                </div>
+
+                <!-- Chart -->
+                <div class="glass-card p-8 border border-stone-800">
+                    <div class="text-[10px] font-black text-stone-500 uppercase tracking-widest mb-6">Traffic Analysis
+                        (Last 14 Days)</div>
+                    <div class="h-[300px] w-full">
+                        <canvas id="analyticsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
             <!-- Projects Section -->
             <div class="lg:col-span-2 space-y-10">
                 <div class="flex justify-between items-center">
@@ -537,6 +586,124 @@
             </div>
         </div>
     </main>
+
+    <script>
+        const ctx = document.getElementById('analyticsChart').getContext('2d');
+
+        // Prepare data from PHP
+        const visitsData = <?php echo json_encode($stats['visits_daily']); ?>;
+        const downloadsData = <?php echo json_encode($stats['downloads_daily']); ?>;
+
+        // Merge labels (dates)
+        const allDates = [...new Set([
+            ...visitsData.map(d => d.date),
+            ...downloadsData.map(d => d.date)
+        ])].sort();
+
+        const visitCounts = allDates.map(date => {
+            const found = visitsData.find(d => d.date === date);
+            return found ? found.count : 0;
+        });
+
+        const downloadCounts = allDates.map(date => {
+            const found = downloadsData.find(d => d.date === date);
+            return found ? found.count : 0;
+        });
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: allDates,
+                datasets: [
+                    {
+                        label: 'Visits',
+                        data: visitCounts,
+                        borderColor: '#facc15',
+                        backgroundColor: 'rgba(250, 204, 21, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#facc15',
+                        pointBorderColor: '#0c0a09',
+                        pointBorderWidth: 2,
+                        pointRadius: 4
+                    },
+                    {
+                        label: 'Downloads',
+                        data: downloadCounts,
+                        borderColor: '#dc2626',
+                        backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#dc2626',
+                        pointBorderColor: '#0c0a09',
+                        pointBorderWidth: 2,
+                        pointRadius: 4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.05)'
+                        },
+                        ticks: {
+                            color: '#78716c',
+                            font: {
+                                family: 'monospace',
+                                size: 10
+                            },
+                            stepSize: 1
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#78716c',
+                            font: {
+                                family: 'monospace',
+                                size: 10
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        align: 'end',
+                        labels: {
+                            color: '#d6d3d1',
+                            font: {
+                                size: 10,
+                                family: 'monospace',
+                                weight: 'bold'
+                            },
+                            boxWidth: 12,
+                            padding: 20
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: '#1c1917',
+                        titleColor: '#facc15',
+                        titleFont: { family: 'monospace' },
+                        bodyFont: { family: 'monospace' },
+                        borderColor: 'rgba(250, 204, 21, 0.2)',
+                        borderWidth: 1,
+                        padding: 12,
+                        displayColors: false
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>

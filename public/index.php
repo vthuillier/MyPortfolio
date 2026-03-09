@@ -89,6 +89,11 @@ switch ($route) {
         (new HomeController())->contact();
         break;
 
+    case 'legal-mentions':
+    case 'legal':
+        (new HomeController())->legal();
+        break;
+
     case 'login':
         $ctrl = new AdminController();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

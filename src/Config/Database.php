@@ -14,6 +14,7 @@ class Database
     {
         if (self::$instance === null) {
             try {
+
                 $connection = Env::get('DB_CONNECTION', 'sqlite');
 
                 if ($connection === 'pgsql') {

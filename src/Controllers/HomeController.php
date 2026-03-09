@@ -8,6 +8,8 @@ use App\Models\Timeline;
 use App\Models\Skill;
 
 use App\Models\Message;
+use App\Models\Analytics;
+
 
 class HomeController extends Controller
 {
@@ -17,6 +19,9 @@ class HomeController extends Controller
         $settings = Setting::all();
         $timeline = Timeline::all();
         $skills = Skill::all();
+
+        // Log page view
+        Analytics::logEvent('page_view', '/');
 
         $this->render('home', [
             'projects' => $projects,
@@ -32,6 +37,9 @@ class HomeController extends Controller
         if ($cvPath) {
             $fullPath = __DIR__ . '/../../public/' . $cvPath;
             if (file_exists($fullPath)) {
+                // Log CV download
+                Analytics::logEvent('cv_download');
+
                 header('Content-Description: File Transfer');
                 header('Content-Type: application/pdf');
                 header('Content-Disposition: attachment; filename="' . basename($fullPath) . '"');
@@ -69,5 +77,12 @@ class HomeController extends Controller
                 $this->redirect('/?error=database');
             }
         }
+    }
+
+    public function legal()
+    {
+        $settings = Setting::all();
+        Analytics::logEvent('page_view', '/legal');
+        $this->render('legal', ['settings' => $settings]);
     }
 }
