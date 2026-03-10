@@ -68,7 +68,8 @@
                         <div class="text-[10px] font-black text-stone-500 uppercase tracking-widest mb-2">Manifest
                             Downloads (CV)</div>
                         <div class="text-4xl font-black text-white">
-                            <?php echo number_format($stats['total_downloads']); ?></div>
+                            <?php echo number_format($stats['total_downloads']); ?>
+                        </div>
                     </div>
 
                     <!-- Messages Card -->
@@ -594,11 +595,13 @@
         const visitsData = <?php echo json_encode($stats['visits_daily']); ?>;
         const downloadsData = <?php echo json_encode($stats['downloads_daily']); ?>;
 
-        // Merge labels (dates)
-        const allDates = [...new Set([
-            ...visitsData.map(d => d.date),
-            ...downloadsData.map(d => d.date)
-        ])].sort();
+        // Generate last 14 days labels
+        const allDates = [];
+        for (let i = 13; i >= 0; i--) {
+            const d = new Date();
+            d.setDate(d.getDate() - i);
+            allDates.push(d.toISOString().split('T')[0]);
+        }
 
         const visitCounts = allDates.map(date => {
             const found = visitsData.find(d => d.date === date);
