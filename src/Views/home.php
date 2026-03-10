@@ -58,9 +58,29 @@ $isEn = \App\Helpers\Language::getCurrent() === 'en';
                 <div class="hidden md:block w-12 h-px bg-stone-800"></div>
                 <p class="text-stone-500 max-w-lg italic font-mono text-sm">
                     //
-                    "<?php echo $isEn ? ($settings['site_bio_en'] ?? $settings['site_bio']) : $settings['site_bio']; ?>"
+                    <span id="hero-typing-bio"
+                        data-text="<?php echo addslashes($isEn ? ($settings['site_bio_en'] ?? $settings['site_bio']) : $settings['site_bio']); ?>"></span><span
+                        class="animate-pulse">_</span>
                 </p>
             </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const bioElement = document.getElementById('hero-typing-bio');
+                    const text = bioElement.getAttribute('data-text');
+                    let i = 0;
+
+                    function type() {
+                        if (i < text.length) {
+                            bioElement.textContent += text.charAt(i);
+                            i++;
+                            setTimeout(type, 30 + Math.random() * 50);
+                        }
+                    }
+
+                    setTimeout(type, 1000);
+                });
+            </script>
 
             <div class="flex flex-wrap gap-4">
                 <a href="#projects"
