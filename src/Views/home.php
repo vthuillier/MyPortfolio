@@ -14,8 +14,10 @@ $isEn = \App\Helpers\Language::getCurrent() === 'en';
                     <span
                         class="relative inline-flex rounded-full h-2 w-2 <?php echo ($settings['is_available'] ?? '1') === '1' ? 'bg-green-500' : 'bg-red-500'; ?>"></span>
                 </span>
-                <span><?php echo \App\Helpers\Language::get('system_status'); ?>:
-                    <?php echo ($settings['is_available'] ?? '1') === '1' ? \App\Helpers\Language::get('status_ready') : \App\Helpers\Language::get('status_busy'); ?></span>
+                <span>
+                    <?php echo \App\Helpers\Language::get('system_status'); ?>:
+                    <?php echo ($settings['is_available'] ?? '1') === '1' ? \App\Helpers\Language::get('status_ready') : \App\Helpers\Language::get('status_busy'); ?>
+                </span>
             </div>
 
             <h1 class="glitch-text text-6xl md:text-9xl font-black mb-8 tracking-tighter uppercase leading-[0.8] mix-blend-difference"
@@ -84,9 +86,13 @@ $isEn = \App\Helpers\Language::getCurrent() === 'en';
 
             <div class="flex flex-wrap gap-4">
                 <a href="#projects"
-                    class="accent-bg-yellow text-black px-10 py-5 rounded-sm font-black uppercase tracking-widest hover:bg-white transition duration-300"><?php echo \App\Helpers\Language::get('hero_browse'); ?></a>
+                    class="accent-bg-yellow text-black px-10 py-5 rounded-sm font-black uppercase tracking-widest hover:bg-white transition duration-300">
+                    <?php echo \App\Helpers\Language::get('hero_browse'); ?>
+                </a>
                 <a href="/cv-download"
-                    class="px-10 py-5 border border-stone-800 text-white rounded-sm font-black uppercase tracking-widest hover:border-red-600 hover:text-red-500 transition duration-300"><?php echo \App\Helpers\Language::get('hero_cv'); ?></a>
+                    class="px-10 py-5 border border-stone-800 text-white rounded-sm font-black uppercase tracking-widest hover:border-red-600 hover:text-red-500 transition duration-300">
+                    <?php echo \App\Helpers\Language::get('hero_cv'); ?>
+                </a>
             </div>
         </div>
     </div>
@@ -145,8 +151,9 @@ $isEn = \App\Helpers\Language::getCurrent() === 'en';
                     <span class="text-red-600 text-xs font-black uppercase tracking-[0.3em]">Core Profile /
                         Engineering</span>
                     <h2 class="text-5xl font-black tracking-tighter uppercase leading-none">
-                        <?php echo \App\Helpers\Language::get('about_title'); ?><br><span
-                            class="text-yellow-400"><?php echo \App\Helpers\Language::get('about_intervention'); ?></span>
+                        <?php echo \App\Helpers\Language::get('about_title'); ?><br><span class="text-yellow-400">
+                            <?php echo \App\Helpers\Language::get('about_intervention'); ?>
+                        </span>
                     </h2>
                 </div>
                 <div class="text-lg text-stone-400 leading-relaxed font-light">
@@ -216,8 +223,12 @@ $isEn = \App\Helpers\Language::getCurrent() === 'en';
                             <div class="space-y-2">
                                 <div
                                     class="flex justify-between text-[10px] font-black uppercase tracking-widest text-stone-500">
-                                    <span><?php echo htmlspecialchars($s['name']); ?></span>
-                                    <span><?php echo $s['level']; ?>%</span>
+                                    <span>
+                                        <?php echo htmlspecialchars($s['name']); ?>
+                                    </span>
+                                    <span>
+                                        <?php echo $s['level']; ?>%
+                                    </span>
                                 </div>
                                 <div class="h-1 bg-stone-900 w-full overflow-hidden">
                                     <div class="h-full <?php echo $barColor; ?> transition-all duration-1000"
@@ -274,27 +285,35 @@ $isEn = \App\Helpers\Language::getCurrent() === 'en';
 <section id="projects" class="py-32 bg-[#080706] border-y border-stone-900">
     <div class="max-w-7xl mx-auto px-6">
         <div class="flex flex-col mb-20">
-            <span
-                class="text-stone-500 text-xs font-black uppercase tracking-[0.3em] mb-4"><?php echo \App\Helpers\Language::get('projects_log'); ?></span>
+            <span class="text-stone-500 text-xs font-black uppercase tracking-[0.3em] mb-4">
+                <?php echo \App\Helpers\Language::get('projects_log'); ?>
+            </span>
             <h3 class="text-4xl font-black uppercase tracking-tighter">
                 <?php echo \App\Helpers\Language::get('projects_title'); ?>
             </h3>
 
             <!-- Category Filter -->
             <div class="mt-10 flex flex-wrap gap-4">
-                <button class="filter-btn active px-6 py-2 border border-yellow-400 text-yellow-400 text-[10px] font-black uppercase tracking-widest hover:bg-yellow-400 hover:text-black transition" data-filter="all">All_Systems</button>
-                <?php 
-                $categories = array_unique(array_map(function($p) { return $p['category']; }, $projects));
-                foreach ($categories as $cat): 
-                ?>
-                    <button class="filter-btn px-6 py-2 border border-stone-800 text-stone-500 text-[10px] font-black uppercase tracking-widest hover:border-yellow-400/50 hover:text-yellow-400 transition" data-filter="<?php echo htmlspecialchars($cat); ?>"><?php echo htmlspecialchars($cat); ?></button>
+                <button
+                    class="filter-btn active px-6 py-2 border border-yellow-400 text-yellow-400 text-[10px] font-black uppercase tracking-widest hover:bg-yellow-400 hover:text-black transition"
+                    data-filter="all">All_Systems</button>
+                <?php
+                $categories = array_unique(array_map(function ($p) {
+                    return $p['category']; }, $projects));
+                foreach ($categories as $cat):
+                    ?>
+                    <button
+                        class="filter-btn px-6 py-2 border border-stone-800 text-stone-500 text-[10px] font-black uppercase tracking-widest hover:border-yellow-400/50 hover:text-yellow-400 transition"
+                        data-filter="<?php echo htmlspecialchars($cat); ?>">
+                        <?php echo htmlspecialchars($cat); ?>
+                    </button>
                 <?php endforeach; ?>
             </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
-                <div
-                    class="project-card group relative bg-[#0c0a09] border border-stone-800 p-1 hover:border-yellow-400/50 transition duration-500"
+            <?php foreach ($projects as $project): ?>
+                <div class="project-card group relative bg-[#0c0a09] border border-stone-800 p-1 hover:border-yellow-400/50 transition duration-500"
                     data-category="<?php echo htmlspecialchars($project['category']); ?>">
                     <div
                         class="aspect-video overflow-hidden relative grayscale group-hover:grayscale-0 transition duration-700">
@@ -304,15 +323,15 @@ $isEn = \App\Helpers\Language::getCurrent() === 'en';
                         } else {
                             echo 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800';
                         }
-                        ?>" 
-                        loading="lazy"
-                        class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
+                        ?>" loading="lazy"
+                            class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
                         <div class="absolute inset-0 bg-stone-950/40"></div>
                     </div>
                     <div class="p-8 space-y-4">
                         <div class="flex justify-between items-start">
-                            <span
-                                class="text-[10px] font-black uppercase tracking-[0.2em] text-red-500"><?php echo htmlspecialchars($project['category']); ?></span>
+                            <span class="text-[10px] font-black uppercase tracking-[0.2em] text-red-500">
+                                <?php echo htmlspecialchars($project['category']); ?>
+                            </span>
                             <div class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></div>
                         </div>
                         <h4 class="text-2xl font-black tracking-tighter uppercase group-hover:text-yellow-400 transition">
@@ -334,6 +353,36 @@ $isEn = \App\Helpers\Language::getCurrent() === 'en';
             <?php endforeach; ?>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const projectCards = document.querySelectorAll('.project-card');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const filter = btn.getAttribute('data-filter');
+
+                    // Update button styles
+                    filterBtns.forEach(b => {
+                        b.classList.remove('border-yellow-400', 'text-yellow-400', 'active');
+                        b.classList.add('border-stone-800', 'text-stone-500');
+                    });
+                    btn.classList.add('border-yellow-400', 'text-yellow-400', 'active');
+                    btn.classList.remove('border-stone-800', 'text-stone-500');
+
+                    // Filter projects
+                    projectCards.forEach(card => {
+                        if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 </section>
 
 <!-- Timeline (Education/Experience) Section -->
@@ -361,8 +410,9 @@ $isEn = \App\Helpers\Language::getCurrent() === 'en';
                             <h4 class="text-white font-black uppercase text-lg">
                                 <?php echo htmlspecialchars($isEn ? ($item['title_en'] ?? $item['title']) : $item['title']); ?>
                                 <span class="text-yellow-400 mx-2">//</span>
-                                <span
-                                    class="text-stone-400 text-sm"><?php echo htmlspecialchars($isEn ? ($item['organization_en'] ?? $item['organization']) : $item['organization']); ?></span>
+                                <span class="text-stone-400 text-sm">
+                                    <?php echo htmlspecialchars($isEn ? ($item['organization_en'] ?? $item['organization']) : $item['organization']); ?>
+                                </span>
                             </h4>
                             <p class="text-stone-500 text-sm mt-2 font-light">
                                 <?php echo htmlspecialchars($isEn ? ($item['description_en'] ?? $item['description']) : $item['description']); ?>
@@ -393,8 +443,9 @@ $isEn = \App\Helpers\Language::getCurrent() === 'en';
                             <h4 class="text-white font-black uppercase text-lg">
                                 <?php echo htmlspecialchars($isEn ? ($item['title_en'] ?? $item['title']) : $item['title']); ?>
                                 <span class="text-red-600 mx-2">//</span>
-                                <span
-                                    class="text-stone-400 text-sm"><?php echo htmlspecialchars($isEn ? ($item['organization_en'] ?? $item['organization']) : $item['organization']); ?></span>
+                                <span class="text-stone-400 text-sm">
+                                    <?php echo htmlspecialchars($isEn ? ($item['organization_en'] ?? $item['organization']) : $item['organization']); ?>
+                                </span>
                             </h4>
                             <p class="text-stone-500 text-sm mt-2 font-light">
                                 <?php echo htmlspecialchars($isEn ? ($item['description_en'] ?? $item['description']) : $item['description']); ?>
@@ -443,28 +494,33 @@ $isEn = \App\Helpers\Language::getCurrent() === 'en';
                         </div>
                     <?php endif; ?>
                     <div class="space-y-2">
-                        <label
-                            class="block text-[10px] font-black text-stone-500 uppercase tracking-widest"><?php echo \App\Helpers\Language::get('contact_identity'); ?></label>
+                        <label class="block text-[10px] font-black text-stone-500 uppercase tracking-widest">
+                            <?php echo \App\Helpers\Language::get('contact_identity'); ?>
+                        </label>
                         <input type="text" name="name" required
                             class="w-full px-0 py-4 bg-transparent border-b border-stone-800 focus:border-yellow-400 outline-none transition text-white placeholder-stone-700 font-mono"
                             placeholder="NAME">
                     </div>
                     <div class="space-y-2">
-                        <label
-                            class="block text-[10px] font-black text-stone-500 uppercase tracking-widest"><?php echo \App\Helpers\Language::get('contact_route'); ?></label>
+                        <label class="block text-[10px] font-black text-stone-500 uppercase tracking-widest">
+                            <?php echo \App\Helpers\Language::get('contact_route'); ?>
+                        </label>
                         <input type="email" name="email" required
                             class="w-full px-0 py-4 bg-transparent border-b border-stone-800 focus:border-yellow-400 outline-none transition text-white placeholder-stone-700 font-mono"
                             placeholder="EMAIL">
                     </div>
                     <div class="space-y-2">
-                        <label
-                            class="block text-[10px] font-black text-stone-500 uppercase tracking-widest"><?php echo \App\Helpers\Language::get('contact_payload'); ?></label>
+                        <label class="block text-[10px] font-black text-stone-500 uppercase tracking-widest">
+                            <?php echo \App\Helpers\Language::get('contact_payload'); ?>
+                        </label>
                         <textarea name="message" rows="4" required
                             class="w-full px-0 py-4 bg-transparent border-b border-stone-800 focus:border-yellow-400 outline-none transition text-white placeholder-stone-700 font-mono"
                             placeholder="MESSAGE..."></textarea>
                     </div>
                     <button type="submit"
-                        class="w-full bg-red-600 text-white py-5 font-black uppercase tracking-[0.2em] text-xs hover:bg-white hover:text-black transition duration-300"><?php echo \App\Helpers\Language::get('contact_trigger'); ?></button>
+                        class="w-full bg-red-600 text-white py-5 font-black uppercase tracking-[0.2em] text-xs hover:bg-white hover:text-black transition duration-300">
+                        <?php echo \App\Helpers\Language::get('contact_trigger'); ?>
+                    </button>
                 </form>
             </div>
         </div>
