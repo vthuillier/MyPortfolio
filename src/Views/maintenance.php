@@ -31,12 +31,14 @@
         </div>
 
         <div class="relative z-10">
-            <span class="text-yellow-400 text-xs font-black uppercase tracking-[0.4em] mb-4 block">System_Status:
+            <span class="text-yellow-400 text-[10px] font-black uppercase tracking-[0.4em] mb-6 block">System_Status:
                 OFFLINE</span>
-            <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none mb-8">
-                UNDER_<br><span class="text-stone-700">MAINTENANCE</span>
+            <h1
+                class="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-[0.8] mb-10 overflow-visible">
+                UNDER<span class="text-yellow-400">_</span><br>
+                <span class="text-stone-800">MAINTENANCE</span>
             </h1>
-            <p class="text-stone-500 font-mono text-sm leading-relaxed mb-12">
+            <p class="text-stone-500 font-mono text-xs md:text-sm leading-relaxed mb-12 max-w-md">
                 // System is currently undergoing scheduled optimization and database synchronization.
                 // Estimated time to recovery: Unknown.
             </p>

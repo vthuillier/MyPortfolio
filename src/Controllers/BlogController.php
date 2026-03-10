@@ -10,8 +10,9 @@ class BlogController extends Controller
     public function index()
     {
         $posts = Post::all(true);
+        $settings = \App\Models\Setting::all();
         Analytics::logEvent('page_view', '/blog');
-        $this->render('blog', ['posts' => $posts]);
+        $this->render('blog', ['posts' => $posts, 'settings' => $settings]);
     }
 
     public function show($slug)
@@ -22,7 +23,8 @@ class BlogController extends Controller
             $this->redirect('/blog');
         }
 
+        $settings = \App\Models\Setting::all();
         Analytics::logEvent('page_view', '/blog/' . $slug);
-        $this->render('blog_detail', ['post' => $post]);
+        $this->render('blog_detail', ['post' => $post, 'settings' => $settings]);
     }
 }

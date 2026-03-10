@@ -357,6 +357,13 @@
             class="bg-red-600 text-white text-[9px] font-black uppercase tracking-[0.4em] py-1 text-center hidden animate-pulse">
             CRITICAL SYSTEM OVERRIDE // INTERVENTION MODE ACTIVE
         </div>
+
+        <?php if (($settings['maintenance_mode'] ?? '0') == '1'): ?>
+            <div
+                class="bg-yellow-400 text-black text-[8px] md:text-[9px] font-black uppercase tracking-[0.2em] md:tracking-[0.4em] py-1 text-center">
+                MAINTENANCE_MODE: ACTIVE // PRIVATE_ACCESS_ONLY
+            </div>
+        <?php endif; ?>
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex justify-between h-20 items-center">
                 <a href="/" class="flex items-center space-x-3 group">

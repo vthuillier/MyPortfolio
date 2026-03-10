@@ -62,7 +62,7 @@ use App\Models\Setting;
 $maintenance = Setting::get('maintenance_mode', '0');
 $isAdminRoute = strpos($route, 'admin') === 0 || in_array($route, ['login', 'logout', 'setup', 'setup/submit']);
 
-if ($maintenance === '1' && !$isAdminRoute && !isset($_SESSION['user_id'])) {
+if ((string) $maintenance === '1' && !$isAdminRoute && !isset($_SESSION['user_id'])) {
     require_once __DIR__ . '/../src/Views/maintenance.php';
     exit;
 }
