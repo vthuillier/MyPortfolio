@@ -276,6 +276,8 @@
                                                     class="text-yellow-400 hover:text-white transition text-[10px] font-black uppercase tracking-widest">Mark
                                                     read</a>
                                             <?php endif; ?>
+                                            <a href="/admin/message/reply?id=<?php echo $msg['id']; ?>"
+                                                class="text-stone-400 hover:text-yellow-400 transition text-[10px] font-black uppercase tracking-widest">Reply</a>
                                             <a href="/admin/message/delete?id=<?php echo $msg['id']; ?>"
                                                 onclick="return confirm('Erase transmission record?')"
                                                 class="text-red-900 hover:text-red-500 transition text-[10px] font-black uppercase tracking-widest">Erase</a>
@@ -465,6 +467,14 @@
                             <textarea name="analytics_script" rows="2"
                                 placeholder="<!-- <script defer data-domain='...' src='...'></script> -->"
                                 class="w-full px-4 py-3 bg-stone-900/50 border border-stone-800 focus:border-yellow-400 outline-none transition text-stone-400 font-mono text-xs"><?php echo htmlspecialchars($settings['analytics_script'] ?? ''); ?></textarea>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-[10px] font-black text-stone-500 uppercase tracking-widest">Contact
+                                Notification Email</label>
+                            <input type="email" name="contact_email"
+                                value="<?php echo htmlspecialchars($settings['contact_email'] ?? ''); ?>"
+                                placeholder="votre@email.com"
+                                class="w-full px-4 py-3 bg-stone-900/50 border border-stone-800 focus:border-yellow-400 outline-none transition text-white text-sm">
                         </div>
                     </div>
                     <div class="space-y-2">

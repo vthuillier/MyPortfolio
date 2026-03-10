@@ -170,6 +170,10 @@ switch ($route) {
         (new AdminController())->messageRead();
         break;
 
+    case 'admin/message/reply':
+        (new AdminController())->messageReply();
+        break;
+
     case 'admin/message/delete':
         (new AdminController())->messageDelete();
         break;

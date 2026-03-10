@@ -120,6 +120,29 @@ class AdminController extends Controller
         $this->redirect('/admin');
     }
 
+    public function messageReply()
+    {
+        $id = $_GET['id'] ?? null;
+        $message = Message::find($id);
+
+        if (!$message)
+            $this->redirect('/admin');
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $subject = $_POST['subject'] ?? 'RE: Message from ' . ($_ENV['APP_NAME'] ?? 'Portfolio');
+            $replyContent = $_POST['reply_content'] ?? '';
+
+            if (\App\Helpers\MailerHelper::sendDirectReply($message['email'], $subject, $replyContent, $message['message'])) {
+                Message::markAsRead($id);
+                $this->redirect('/admin?success=reply_sent');
+            } else {
+                $this->redirect('/admin?error=reply_failed');
+            }
+        }
+
+        $this->render('admin/message_reply', ['msg' => $message]);
+    }
+
     public function projectCreate()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
