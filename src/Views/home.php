@@ -20,9 +20,9 @@ $isEn = \App\Helpers\Language::getCurrent() === 'en';
                 </span>
             </div>
 
-            <h1 class="glitch-text text-6xl md:text-9xl font-black mb-8 tracking-tighter uppercase leading-[0.8] mix-blend-difference"
+            <h1 class="glitch-text text-5xl sm:text-7xl md:text-9xl font-black mb-8 tracking-tighter uppercase leading-[0.85] md:leading-[0.8] mix-blend-difference"
                 data-text="<?php echo strtoupper($settings['user_name'] ?? 'VALENTIN THUILLIER'); ?>">
-                <?php echo str_replace(' ', '<br>', strtoupper($settings['user_name'] ?? 'VALENTIN THUILLIER')); ?>
+                <?php echo str_replace(' ', '<br class="sm:hidden"> ', strtoupper($settings['user_name'] ?? 'VALENTIN THUILLIER')); ?>
             </h1>
 
             <?php if (isset($_GET['error'])): ?>
@@ -54,16 +54,27 @@ $isEn = \App\Helpers\Language::getCurrent() === 'en';
             <?php endif; ?>
 
             <div class="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-8 mb-12">
-                <p class="text-xl text-stone-400 font-medium tracking-tight">
+                <p class="text-lg md:text-xl text-stone-400 font-medium tracking-tight">
                     <?php echo $isEn ? ($settings['user_job_en'] ?? $settings['user_job']) : $settings['user_job']; ?>
                 </p>
                 <div class="hidden md:block w-12 h-px bg-stone-800"></div>
-                <p class="text-stone-500 max-w-lg italic font-mono text-sm">
+                <p class="text-stone-500 max-w-lg italic font-mono text-xs md:text-sm">
                     //
                     <span id="hero-typing-bio"
                         data-text="<?php echo addslashes($isEn ? ($settings['site_bio_en'] ?? $settings['site_bio']) : $settings['site_bio']); ?>"></span><span
                         class="animate-pulse">_</span>
                 </p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
+                <a href="#projects"
+                    class="px-8 py-4 bg-yellow-400 text-black font-black uppercase tracking-widest text-[10px] hover:bg-white transition text-center">
+                    <?php echo \App\Helpers\Language::get('hero_browse'); ?>
+                </a>
+                <a href="/cv-download"
+                    class="px-8 py-4 border border-stone-800 text-stone-400 font-black uppercase tracking-widest text-[10px] hover:border-yellow-400/50 hover:text-yellow-400 transition text-center">
+                    <?php echo \App\Helpers\Language::get('hero_cv'); ?>
+                </a>
             </div>
 
             <script>
@@ -83,17 +94,6 @@ $isEn = \App\Helpers\Language::getCurrent() === 'en';
                     setTimeout(type, 1000);
                 });
             </script>
-
-            <div class="flex flex-wrap gap-4">
-                <a href="#projects"
-                    class="accent-bg-yellow text-black px-10 py-5 rounded-sm font-black uppercase tracking-widest hover:bg-white transition duration-300">
-                    <?php echo \App\Helpers\Language::get('hero_browse'); ?>
-                </a>
-                <a href="/cv-download"
-                    class="px-10 py-5 border border-stone-800 text-white rounded-sm font-black uppercase tracking-widest hover:border-red-600 hover:text-red-500 transition duration-300">
-                    <?php echo \App\Helpers\Language::get('hero_cv'); ?>
-                </a>
-            </div>
         </div>
     </div>
 
@@ -293,17 +293,18 @@ $isEn = \App\Helpers\Language::getCurrent() === 'en';
             </h3>
 
             <!-- Category Filter -->
-            <div class="mt-10 flex flex-wrap gap-4">
+            <div class="mt-10 flex flex-wrap gap-3 md:gap-4">
                 <button
-                    class="filter-btn active px-6 py-2 border border-yellow-400 text-yellow-400 text-[10px] font-black uppercase tracking-widest hover:bg-yellow-400 hover:text-black transition"
+                    class="filter-btn active px-4 md:px-6 py-2 border border-yellow-400 text-yellow-400 text-[9px] md:text-[10px] font-black uppercase tracking-widest hover:bg-yellow-400 hover:text-black transition"
                     data-filter="all">All_Systems</button>
                 <?php
                 $categories = array_unique(array_map(function ($p) {
-                    return $p['category']; }, $projects));
+                    return $p['category'];
+                }, $projects));
                 foreach ($categories as $cat):
                     ?>
                     <button
-                        class="filter-btn px-6 py-2 border border-stone-800 text-stone-500 text-[10px] font-black uppercase tracking-widest hover:border-yellow-400/50 hover:text-yellow-400 transition"
+                        class="filter-btn px-4 md:px-6 py-2 border border-stone-800 text-stone-500 text-[9px] md:text-[10px] font-black uppercase tracking-widest hover:border-yellow-400/50 hover:text-yellow-400 transition"
                         data-filter="<?php echo htmlspecialchars($cat); ?>">
                         <?php echo htmlspecialchars($cat); ?>
                     </button>

@@ -107,8 +107,8 @@
                     </a>
                 </div>
 
-                <div class="glass-card rounded-sm overflow-hidden border border-stone-800">
-                    <table class="min-w-full divide-y divide-stone-800">
+                <div class="glass-card rounded-sm overflow-x-auto border border-stone-800">
+                    <table class="min-w-[800px] md:min-w-full divide-y divide-stone-800">
                         <thead class="bg-stone-900/50">
                             <tr>
                                 <th
@@ -164,8 +164,8 @@
                         </a>
                     </div>
 
-                    <div class="glass-card rounded-sm overflow-hidden border border-stone-800">
-                        <table class="min-w-full divide-y divide-stone-800">
+                    <div class="glass-card rounded-sm overflow-x-auto border border-stone-800">
+                        <table class="min-w-[800px] md:min-w-full divide-y divide-stone-800">
                             <thead class="bg-stone-900/50">
                                 <tr>
                                     <th
@@ -222,8 +222,8 @@
                         <h2 class="text-3xl font-black uppercase tracking-tighter">Transmission Logs (Messages)</h2>
                     </div>
 
-                    <div class="glass-card rounded-sm overflow-hidden border border-stone-800">
-                        <table class="min-w-full divide-y divide-stone-800">
+                    <div class="glass-card rounded-sm overflow-x-auto border border-stone-800">
+                        <table class="min-w-[900px] md:min-w-full divide-y divide-stone-800">
                             <thead class="bg-stone-900/50">
                                 <tr>
                                     <th
@@ -303,8 +303,8 @@
                         </a>
                     </div>
 
-                    <div class="glass-card rounded-sm overflow-hidden border border-stone-800">
-                        <table class="min-w-full divide-y divide-stone-800">
+                    <div class="glass-card rounded-sm overflow-x-auto border border-stone-800">
+                        <table class="min-w-[800px] md:min-w-full divide-y divide-stone-800">
                             <thead class="bg-stone-900/50">
                                 <tr>
                                     <th
@@ -370,8 +370,8 @@
                         </a>
                     </div>
 
-                    <div class="glass-card rounded-sm overflow-hidden border border-stone-800">
-                        <table class="min-w-full divide-y divide-stone-800">
+                    <div class="glass-card rounded-sm overflow-x-auto border border-stone-800">
+                        <table class="min-w-[800px] md:min-w-full divide-y divide-stone-800">
                             <thead class="bg-stone-900/50">
                                 <tr>
                                     <th
@@ -555,7 +555,7 @@
                                 class="text-[9px] font-black text-yellow-400 hover:text-white transition uppercase tracking-widest border border-yellow-400/20 px-3 py-1 rounded-sm">Download
                                 Backup</a>
                         </div>
-                        <div class="grid grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div class="space-y-2">
                                 <label
                                     class="block text-[9px] font-bold text-stone-500 uppercase tracking-widest">Curriculum
@@ -579,7 +579,7 @@
                     </div>
                     <div class="space-y-4 pt-4 border-t border-stone-800">
                         <h3 class="text-[10px] font-black text-stone-400 uppercase tracking-widest">Network Links</h3>
-                        <div class="grid grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div class="space-y-2">
                                 <label
                                     class="block text-[9px] font-bold text-stone-500 uppercase tracking-widest">GitHub
@@ -610,7 +610,7 @@
                         <div class="space-y-4">
                             <h3 class="text-[10px] font-black text-yellow-400 uppercase tracking-widest">Expertise 1
                                 (Yellow Block)</h3>
-                            <div class="grid grid-cols-2 gap-4">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div class="space-y-2">
                                     <label
                                         class="block text-[9px] font-bold text-stone-500 uppercase tracking-widest">Title
@@ -647,7 +647,7 @@
                         <div class="space-y-4 pt-4 border-t border-stone-800">
                             <h3 class="text-[10px] font-black text-red-500 uppercase tracking-widest">Expertise 2 (Red
                                 Block)</h3>
-                            <div class="grid grid-cols-2 gap-4">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div class="space-y-2">
                                     <label
                                         class="block text-[9px] font-bold text-stone-500 uppercase tracking-widest">Title

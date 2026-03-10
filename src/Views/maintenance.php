@@ -21,8 +21,8 @@
     </style>
 </head>
 
-<body class="flex items-center justify-center min-h-screen p-6">
-    <div class="max-w-2xl w-full border border-stone-800 p-12 bg-[#0c0a09] relative overflow-hidden">
+<body class="flex items-center justify-center min-h-screen p-4 md:p-6 bg-[#0c0a09]">
+    <div class="max-w-2xl w-full border border-stone-800 p-8 md:p-12 bg-[#0c0a09] relative overflow-hidden">
         <div class="absolute top-0 right-0 p-4 opacity-10">
             <svg class="w-32 h-32 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
                 <path

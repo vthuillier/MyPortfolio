@@ -387,8 +387,8 @@
                     <a href="/#contact"
                         class="text-xs font-bold uppercase tracking-widest text-stone-400 hover:text-yellow-400 transition-colors"><?php echo \App\Helpers\Language::get('nav_contact'); ?></a>
                 </div>
-                <div class="flex items-center space-x-6">
-                    <div class="flex items-center space-x-2 border-r border-stone-800 pr-6">
+                <div class="flex items-center space-x-3 md:space-x-6">
+                    <div class="hidden sm:flex items-center space-x-2 border-r border-stone-800 pr-6">
                         <a href="?lang=fr"
                             class="text-[10px] font-black uppercase tracking-widest <?php echo \App\Helpers\Language::getCurrent() === 'fr' ? 'text-yellow-400 font-black' : 'text-stone-600 hover:text-stone-400'; ?> transition">FR</a>
                         <span class="text-stone-800">/</span>
@@ -396,23 +396,60 @@
                             class="text-[10px] font-black uppercase tracking-widest <?php echo \App\Helpers\Language::getCurrent() === 'en' ? 'text-yellow-400 font-black' : 'text-stone-600 hover:text-stone-400'; ?> transition">EN</a>
                     </div>
                     <a href="/login"
-                        class="px-4 py-2 border border-stone-800 rounded-lg text-[10px] font-black uppercase tracking-widest text-stone-500 hover:border-yellow-400/50 hover:text-yellow-400 transition"><?php echo \App\Helpers\Language::get('nav_admin'); ?></a>
+                        class="hidden sm:block px-4 py-2 border border-stone-800 rounded-lg text-[10px] font-black uppercase tracking-widest text-stone-500 hover:border-yellow-400/50 hover:text-yellow-400 transition"><?php echo \App\Helpers\Language::get('nav_admin'); ?></a>
 
                     <!-- Emergency Button -->
                     <button id="panic-button"
-                        class="emergency-btn group relative flex items-center justify-center w-10 h-10 border border-red-900/50 rounded-lg hover:border-red-500 transition-all duration-500 overflow-hidden"
+                        class="emergency-btn group relative flex items-center justify-center w-8 h-8 md:w-10 md:h-10 border border-red-900/50 rounded-lg hover:border-red-500 transition-all duration-500 overflow-hidden"
                         title="TOGGLE EMERGENCY MODE">
                         <div class="absolute inset-0 bg-red-600/10 group-hover:bg-red-600/20 transition-colors"></div>
-                        <svg class="w-5 h-5 text-red-600 group-hover:scale-110 transition-transform" fill="currentColor"
-                            viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 md:w-5 md:h-5 text-red-600 group-hover:scale-110 transition-transform"
+                            fill="currentColor" viewBox="0 0 24 24">
                             <path
                                 d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
                         </svg>
+                    </button>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button id="mobile-menu-toggle" class="md:hidden flex flex-col space-y-1.5 p-2 z-[60]">
+                        <span class="w-6 h-0.5 bg-stone-300 transition-all duration-300 origin-center"></span>
+                        <span class="w-6 h-0.5 bg-stone-300 transition-all duration-300"></span>
+                        <span class="w-6 h-0.5 bg-stone-300 transition-all duration-300 origin-center"></span>
                     </button>
                 </div>
             </div>
         </div>
     </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu"
+        class="fixed inset-0 bg-[#0c0a09] z-[100] flex flex-col items-center justify-center translate-x-full transition-transform duration-500 md:hidden">
+        <div class="space-y-8 text-center">
+            <a href="/#about"
+                class="mobile-nav-link block text-2xl font-black uppercase tracking-[0.2em] text-stone-500 hover:text-yellow-400 transition"><?php echo \App\Helpers\Language::get('nav_strategy'); ?></a>
+            <a href="/#projects"
+                class="mobile-nav-link block text-2xl font-black uppercase tracking-[0.2em] text-stone-500 hover:text-yellow-400 transition"><?php echo \App\Helpers\Language::get('nav_interventions'); ?></a>
+            <a href="/blog"
+                class="mobile-nav-link block text-2xl font-black uppercase tracking-[0.2em] text-stone-500 hover:text-yellow-400 transition">Dev_Log</a>
+            <a href="/#contact"
+                class="mobile-nav-link block text-2xl font-black uppercase tracking-[0.2em] text-stone-500 hover:text-yellow-400 transition"><?php echo \App\Helpers\Language::get('nav_contact'); ?></a>
+
+            <div class="pt-12 flex flex-col items-center space-y-6">
+                <div class="flex items-center space-x-6">
+                    <a href="?lang=fr"
+                        class="text-sm font-black uppercase tracking-widest <?php echo \App\Helpers\Language::getCurrent() === 'fr' ? 'text-yellow-400' : 'text-stone-600'; ?>">FR</a>
+                    <a href="?lang=en"
+                        class="text-sm font-black uppercase tracking-widest <?php echo \App\Helpers\Language::getCurrent() === 'en' ? 'text-yellow-400' : 'text-stone-600'; ?>">EN</a>
+                </div>
+                <a href="/login"
+                    class="px-8 py-3 border border-stone-800 rounded-lg text-xs font-black uppercase tracking-widest text-stone-200"><?php echo \App\Helpers\Language::get('nav_admin'); ?></a>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 text-[9px] font-mono text-stone-800 uppercase tracking-widest">
+            System_Access: Restricted
+        </div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -470,5 +507,38 @@
                 statusTag.classList.replace('text-red-500', 'text-yellow-400');
                 gsap.to("#emergency-overlay", { opacity: 0, duration: 0.5 });
             }
+
+            // Mobile Menu Logic
+            const menuToggle = document.getElementById('mobile-menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuLinks = document.querySelectorAll('.mobile-nav-link');
+            const menuSpans = menuToggle.querySelectorAll('span');
+
+            menuToggle.addEventListener('click', () => {
+                const isOpen = mobileMenu.classList.contains('translate-x-0');
+                if (isOpen) {
+                    mobileMenu.classList.replace('translate-x-0', 'translate-x-full');
+                    menuSpans[0].style.transform = 'none';
+                    menuSpans[1].style.opacity = '1';
+                    menuSpans[2].style.transform = 'none';
+                    document.body.style.overflow = '';
+                } else {
+                    mobileMenu.classList.replace('translate-x-full', 'translate-x-0');
+                    menuSpans[0].style.transform = 'translateY(7px) rotate(45deg)';
+                    menuSpans[1].style.opacity = '0';
+                    menuSpans[2].style.transform = 'translateY(-7px) rotate(-45deg)';
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+
+            menuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.replace('translate-x-0', 'translate-x-full');
+                    menuSpans[0].style.transform = 'none';
+                    menuSpans[1].style.opacity = '1';
+                    menuSpans[2].style.transform = 'none';
+                    document.body.style.overflow = '';
+                });
+            });
         });
     </script>
