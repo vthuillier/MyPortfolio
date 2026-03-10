@@ -291,6 +291,72 @@
                         <?php endif; ?>
                     </div>
                 </div>
+                <!-- Dev Log Section -->
+                <div class="space-y-10 pt-10 border-t border-stone-800">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-3xl font-black uppercase tracking-tighter">Dev Log Entries</h2>
+                        <a href="/admin/post/create"
+                            class="accent-bg-yellow text-black px-6 py-3 font-black uppercase tracking-widest text-[10px] hover:bg-white transition">
+                            New Log
+                        </a>
+                    </div>
+
+                    <div class="glass-card rounded-sm overflow-hidden border border-stone-800">
+                        <table class="min-w-full divide-y divide-stone-800">
+                            <thead class="bg-stone-900/50">
+                                <tr>
+                                    <th
+                                        class="px-6 py-4 text-left text-[10px] font-black text-stone-500 uppercase tracking-widest">
+                                        Title</th>
+                                    <th
+                                        class="px-6 py-4 text-left text-[10px] font-black text-stone-500 uppercase tracking-widest">
+                                        Status</th>
+                                    <th
+                                        class="px-6 py-4 text-left text-[10px] font-black text-stone-500 uppercase tracking-widest">
+                                        Published</th>
+                                    <th
+                                        class="px-6 py-4 text-right text-[10px] font-black text-stone-500 uppercase tracking-widest">
+                                        Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-800">
+                                <?php foreach ($posts as $post): ?>
+                                    <tr class="hover:bg-white/5 transition">
+                                        <td class="px-6 py-4">
+                                            <div class="font-bold text-stone-200">
+                                                <?php echo htmlspecialchars($post['title']); ?>
+                                            </div>
+                                            <div class="text-[10px] text-stone-500 font-mono">
+                                                /blog/<?php echo htmlspecialchars($post['slug']); ?>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="text-[9px] font-black px-2 py-1 border <?php echo $post['is_published'] ? 'border-green-400/20 text-green-400' : 'border-stone-600/20 text-stone-600'; ?> uppercase tracking-widest">
+                                                <?php echo $post['is_published'] ? 'PUBLISHED' : 'DRAFT'; ?>
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-stone-400 text-xs font-mono">
+                                            <?php echo $post['published_at'] ? date('Y-m-d', strtotime($post['published_at'])) : '-'; ?>
+                                        </td>
+                                        <td class="px-6 py-4 text-right space-x-3">
+                                            <a href="/admin/post/edit?id=<?php echo $post['id']; ?>"
+                                                class="text-stone-500 hover:text-yellow-400 transition text-[10px] font-black uppercase tracking-widest">Edit</a>
+                                            <a href="/admin/post/delete?id=<?php echo $post['id']; ?>"
+                                                onclick="return confirm('Confirm Deletion?')"
+                                                class="text-red-900 hover:text-red-500 transition text-[10px] font-black uppercase tracking-widest">Delete</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                        <?php if (empty($posts)): ?>
+                            <div class="p-10 text-center text-stone-600 font-mono text-xs italic">
+                                NO LOG ENTRIES FOUND.
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
 
                 <!-- Technical Expertise Section -->
                 <div class="space-y-10 pt-10 border-t border-stone-800">
@@ -363,6 +429,25 @@
                 <form action="/admin/settings" method="POST" enctype="multipart/form-data"
                     class="glass-card p-8 rounded-sm space-y-6">
                     <?php echo \App\Helpers\Csrf::field(); ?>
+
+                    <div class="space-y-4 pt-4 border-b border-stone-800 pb-4 mb-4">
+                        <div class="flex items-center justify-between">
+                            <div class="space-y-1">
+                                <h3 class="text-[10px] font-black text-white uppercase tracking-widest">Maintenance_Mode
+                                </h3>
+                                <p class="text-[9px] text-stone-500 uppercase tracking-widest">Offline for public users
+                                </p>
+                            </div>
+                            <div
+                                class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                                <input type="hidden" name="maintenance_mode" value="0">
+                                <input type="checkbox" name="maintenance_mode" value="1" id="maintenance_toggle" <?php echo ($settings['maintenance_mode'] ?? '0') == '1' ? 'checked' : ''; ?>
+                                    class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-stone-700 border-4 border-stone-800 appearance-none cursor-pointer checked:right-0 checked:bg-yellow-400 right-4 transition-all duration-300">
+                                <label for="maintenance_toggle"
+                                    class="toggle-label block overflow-hidden h-6 rounded-full bg-stone-900 border border-stone-800 cursor-pointer"></label>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="space-y-2">
                         <label class="block text-[10px] font-black text-stone-500 uppercase tracking-widest">Identity

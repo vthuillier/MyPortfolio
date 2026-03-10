@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Timeline;
 use App\Models\Skill;
 use App\Models\Message;
+use App\Models\Post;
 use App\Models\Analytics;
 use App\Helpers\Auth;
 
@@ -100,6 +101,7 @@ class AdminController extends Controller
             'timeline' => $timeline,
             'skills' => $skills,
             'messages' => $messages,
+            'posts' => Post::all(),
             'stats' => $stats
         ]);
     }
@@ -238,6 +240,47 @@ class AdminController extends Controller
             Setting::updateMany($data);
             $this->redirect('/admin');
         }
+    }
+
+    public function postCreate()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = $_POST;
+            if (empty($data['slug'])) {
+                $data['slug'] = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $data['title'])));
+            }
+            if (empty($data['published_at']) && $data['is_published'] == 1) {
+                $data['published_at'] = date('Y-m-d H:i:s');
+            }
+            Post::create($data);
+            $this->redirect('/admin');
+        }
+        $this->render('admin/post_form', ['action' => 'create']);
+    }
+
+    public function postEdit()
+    {
+        $id = $_GET['id'] ?? null;
+        $post = Post::find($id);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = $_POST;
+            unset($data['csrf_token']);
+            if (empty($data['slug'])) {
+                $data['slug'] = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $data['title'])));
+            }
+            Post::update($id, $data);
+            $this->redirect('/admin');
+        }
+
+        $this->render('admin/post_form', ['action' => 'edit', 'post' => $post]);
+    }
+
+    public function postDelete()
+    {
+        $id = $_GET['id'] ?? null;
+        Post::delete($id);
+        $this->redirect('/admin');
     }
 
     public function dbExport()

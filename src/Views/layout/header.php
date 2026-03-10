@@ -371,11 +371,13 @@
                     </div>
                 </a>
                 <div class="hidden md:flex space-x-10">
-                    <a href="#about"
+                    <a href="/#about"
                         class="text-xs font-bold uppercase tracking-widest text-stone-400 hover:text-yellow-400 transition-colors"><?php echo \App\Helpers\Language::get('nav_strategy'); ?></a>
-                    <a href="#projects"
+                    <a href="/#projects"
                         class="text-xs font-bold uppercase tracking-widest text-stone-400 hover:text-yellow-400 transition-colors"><?php echo \App\Helpers\Language::get('nav_interventions'); ?></a>
-                    <a href="#contact"
+                    <a href="/blog"
+                        class="text-xs font-bold uppercase tracking-widest text-stone-400 hover:text-yellow-400 transition-colors">Dev_Log</a>
+                    <a href="/#contact"
                         class="text-xs font-bold uppercase tracking-widest text-stone-400 hover:text-yellow-400 transition-colors"><?php echo \App\Helpers\Language::get('nav_contact'); ?></a>
                 </div>
                 <div class="flex items-center space-x-6">

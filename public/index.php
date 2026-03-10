@@ -46,6 +46,7 @@ use App\Controllers\AdminController;
 use App\Helpers\Language;
 use App\Helpers\Env;
 use App\Helpers\MigrationHelper;
+use App\Controllers\BlogController;
 
 Env::load(__DIR__ . '/../.env');
 Language::init();
@@ -56,9 +57,27 @@ Language::init();
 use App\Controllers\SetupController;
 use App\Models\User;
 
+// Check Maintenance Mode
+use App\Models\Setting;
+$maintenance = Setting::get('maintenance_mode', '0');
+$isAdminRoute = strpos($route, 'admin') === 0 || in_array($route, ['login', 'logout', 'setup', 'setup/submit']);
+
+if ($maintenance === '1' && !$isAdminRoute && !isset($_SESSION['user_id'])) {
+    require_once __DIR__ . '/../src/Views/maintenance.php';
+    exit;
+}
+
 // Check if setup is needed
 if (User::count() === 0 && !in_array($route, ['setup', 'setup/submit'])) {
     (new SetupController())->index();
+    exit;
+}
+
+if ($route === 'blog') {
+    (new BlogController())->index();
+    exit;
+} elseif (strpos($route, 'blog/') === 0) {
+    (new BlogController())->show(substr($route, 5));
     exit;
 }
 
@@ -161,6 +180,18 @@ switch ($route) {
 
     case 'admin/db-export':
         (new AdminController())->dbExport();
+        break;
+
+    case 'admin/post/create':
+        (new AdminController())->postCreate();
+        break;
+
+    case 'admin/post/edit':
+        (new AdminController())->postEdit();
+        break;
+
+    case 'admin/post/delete':
+        (new AdminController())->postDelete();
         break;
 
     default:
