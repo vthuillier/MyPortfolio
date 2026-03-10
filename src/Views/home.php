@@ -279,12 +279,23 @@ $isEn = \App\Helpers\Language::getCurrent() === 'en';
             <h3 class="text-4xl font-black uppercase tracking-tighter">
                 <?php echo \App\Helpers\Language::get('projects_title'); ?>
             </h3>
+
+            <!-- Category Filter -->
+            <div class="mt-10 flex flex-wrap gap-4">
+                <button class="filter-btn active px-6 py-2 border border-yellow-400 text-yellow-400 text-[10px] font-black uppercase tracking-widest hover:bg-yellow-400 hover:text-black transition" data-filter="all">All_Systems</button>
+                <?php 
+                $categories = array_unique(array_map(function($p) { return $p['category']; }, $projects));
+                foreach ($categories as $cat): 
+                ?>
+                    <button class="filter-btn px-6 py-2 border border-stone-800 text-stone-500 text-[10px] font-black uppercase tracking-widest hover:border-yellow-400/50 hover:text-yellow-400 transition" data-filter="<?php echo htmlspecialchars($cat); ?>"><?php echo htmlspecialchars($cat); ?></button>
+                <?php endforeach; ?>
+            </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <?php foreach ($projects as $project): ?>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
                 <div
-                    class="group relative bg-[#0c0a09] border border-stone-800 p-1 hover:border-yellow-400/50 transition duration-500">
+                    class="project-card group relative bg-[#0c0a09] border border-stone-800 p-1 hover:border-yellow-400/50 transition duration-500"
+                    data-category="<?php echo htmlspecialchars($project['category']); ?>">
                     <div
                         class="aspect-video overflow-hidden relative grayscale group-hover:grayscale-0 transition duration-700">
                         <img src="<?php
@@ -293,7 +304,9 @@ $isEn = \App\Helpers\Language::getCurrent() === 'en';
                         } else {
                             echo 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800';
                         }
-                        ?>" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
+                        ?>" 
+                        loading="lazy"
+                        class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
                         <div class="absolute inset-0 bg-stone-950/40"></div>
                     </div>
                     <div class="p-8 space-y-4">
