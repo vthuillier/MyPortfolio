@@ -23,19 +23,21 @@ class Skill
 
     public static function create($data)
     {
+        $level = self::validateLevel($data['level']);
         $db = Database::getConnection();
         $stmt = $db->prepare("INSERT INTO skills (category, category_en, name, level, order_index) VALUES (:category, :category_en, :name, :level, :order_index)");
         return $stmt->execute([
             'category' => $data['category'],
             'category_en' => $data['category_en'],
             'name' => $data['name'],
-            'level' => $data['level'],
+            'level' => $level,
             'order_index' => $data['order_index'] ?? 0
         ]);
     }
 
     public static function update($id, $data)
     {
+        $level = self::validateLevel($data['level']);
         $db = Database::getConnection();
         $stmt = $db->prepare("UPDATE skills SET category = :category, category_en = :category_en, name = :name, level = :level, order_index = :order_index WHERE id = :id");
         return $stmt->execute([
@@ -43,9 +45,19 @@ class Skill
             'category' => $data['category'],
             'category_en' => $data['category_en'],
             'name' => $data['name'],
-            'level' => $data['level'],
+            'level' => $level,
             'order_index' => $data['order_index'] ?? 0
         ]);
+    }
+
+    private static function validateLevel($level)
+    {
+        $level = (int) $level;
+        if ($level < 0)
+            return 0;
+        if ($level > 100)
+            return 100;
+        return $level;
     }
 
     public static function delete($id)

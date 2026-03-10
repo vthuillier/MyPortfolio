@@ -159,6 +159,10 @@ switch ($route) {
         (new AdminController())->settingsUpdate();
         break;
 
+    case 'admin/db-export':
+        (new AdminController())->dbExport();
+        break;
+
     default:
         http_response_code(404);
         echo "404 - Page non trouvée: " . htmlspecialchars($route);

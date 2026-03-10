@@ -50,8 +50,16 @@ class AdminController extends Controller
                 return $this->render('admin/login', ['error' => 'Erreur de sécurité CSRF.']);
             }
 
+            // Rate limiting: max 5 login attempts per 15 minutes
+            if (\App\Helpers\RateLimiter::isLimited('login_attempt', 5, 900)) {
+                return $this->render('admin/login', ['error' => 'Too many login attempts. Please try again later.']);
+            }
+
             $username = $_POST['username'] ?? '';
             $password = $_POST['password'] ?? '';
+
+            // Log attempt
+            \App\Models\Analytics::logEvent('login_attempt', '/login');
 
             $user = User::authenticate($username, $password);
             if ($user) {
@@ -230,6 +238,31 @@ class AdminController extends Controller
             Setting::updateMany($data);
             $this->redirect('/admin');
         }
+    }
+
+    public function dbExport()
+    {
+        $connection = \App\Helpers\Env::get('DB_CONNECTION', 'sqlite');
+
+        if ($connection === 'sqlite') {
+            $dbFile = \App\Helpers\Env::get('DB_FILE', 'database/portfolio.sqlite');
+            $fullPath = __DIR__ . '/../../' . $dbFile;
+
+            if (file_exists($fullPath)) {
+                header('Content-Description: File Transfer');
+                header('Content-Type: application/x-sqlite3');
+                header('Content-Disposition: attachment; filename="' . basename($fullPath) . '"');
+                header('Expires: 0');
+                header('Cache-Control: must-revalidate');
+                header('Pragma: public');
+                header('Content-Length: ' . filesize($fullPath));
+                readfile($fullPath);
+                exit;
+            }
+        }
+
+        // Non-sqlite or file not found
+        $this->redirect('/admin?error=export_failed');
     }
 
     private function handleUpload($file, $allowed = ['jpg', 'png', 'jpeg', 'gif', 'webp'])

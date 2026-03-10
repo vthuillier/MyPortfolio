@@ -453,7 +453,13 @@
                         </div>
                     </div>
                     <div class="space-y-4 pt-4 border-t border-stone-800">
-                        <h3 class="text-[10px] font-black text-stone-400 uppercase tracking-widest">System Files</h3>
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-[10px] font-black text-stone-400 uppercase tracking-widest">System Files
+                            </h3>
+                            <a href="/admin/db-export"
+                                class="text-[9px] font-black text-yellow-400 hover:text-white transition uppercase tracking-widest border border-yellow-400/20 px-3 py-1 rounded-sm">Download
+                                Backup</a>
+                        </div>
                         <div class="grid grid-cols-2 gap-4">
                             <div class="space-y-2">
                                 <label

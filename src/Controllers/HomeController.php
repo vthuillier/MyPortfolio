@@ -58,6 +58,14 @@ class HomeController extends Controller
     {
         // Handle contact form submission
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Rate limiting check: max 3 messages per hour
+            if (\App\Helpers\RateLimiter::isLimited('contact_form', 3, 3600)) {
+                $this->redirect('/?error=rate_limit');
+            }
+
+            // Log attempt
+            Analytics::logEvent('contact_form', '/contact');
+
             if (!\App\Helpers\Csrf::verifyToken($_POST['csrf_token'] ?? '')) {
                 $this->redirect('/?error=csrf');
             }
