@@ -44,7 +44,18 @@ class Database
                 self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 self::$instance->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
             } catch (PDOException $e) {
-                die("Connection failed: " . $e->getMessage());
+                error_log("Database connection failed: " . $e->getMessage());
+                http_response_code(503);
+                header('Retry-After: 300'); // Suggest retry in 5 minutes
+                
+                // Load maintenance view if it exists
+                $maintenanceView = __DIR__ . '/../Views/maintenance.php';
+                if (file_exists($maintenanceView)) {
+                    require_once $maintenanceView;
+                } else {
+                    die("System is currently under maintenance. Please try again later.");
+                }
+                exit;
             }
         }
         return self::$instance;
