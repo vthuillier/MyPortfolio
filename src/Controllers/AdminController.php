@@ -101,6 +101,7 @@ class AdminController extends Controller
             'timeline' => $timeline,
             'skills' => $skills,
             'messages' => $messages,
+            'banned_senders' => \App\Models\BannedSender::all(),
             'posts' => Post::all(),
             'stats' => $stats
         ]);
@@ -117,6 +118,58 @@ class AdminController extends Controller
     {
         $id = $_GET['id'] ?? null;
         Message::delete($id);
+        $this->redirect('/admin');
+    }
+
+    public function messageBan()
+    {
+        $id = $_GET['id'] ?? null;
+        $msg = Message::find($id);
+        if ($msg) {
+            // Ban the email
+            if (!empty($msg['email'])) {
+                \App\Models\BannedSender::create([
+                    'type' => 'email',
+                    'value' => $msg['email'],
+                    'reason' => 'Spam block from message #' . $id
+                ]);
+            }
+            // Ban the IP
+            if (!empty($msg['ip_address'])) {
+                \App\Models\BannedSender::create([
+                    'type' => 'ip',
+                    'value' => $msg['ip_address'],
+                    'reason' => 'Spam block from message #' . $id
+                ]);
+            }
+            // Delete the spam message
+            Message::delete($id);
+        }
+        $this->redirect('/admin');
+    }
+
+    public function bannedSenderDelete()
+    {
+        $id = $_GET['id'] ?? null;
+        \App\Models\BannedSender::delete($id);
+        $this->redirect('/admin');
+    }
+
+    public function bannedSenderCreate()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $type = $_POST['type'] ?? 'email';
+            $value = trim($_POST['value'] ?? '');
+            $reason = trim($_POST['reason'] ?? 'Manual ban');
+
+            if (!empty($value)) {
+                \App\Models\BannedSender::create([
+                    'type' => $type,
+                    'value' => $value,
+                    'reason' => $reason
+                ]);
+            }
+        }
         $this->redirect('/admin');
     }
 

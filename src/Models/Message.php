@@ -16,11 +16,12 @@ class Message
     public static function create($data)
     {
         $db = Database::getConnection();
-        $stmt = $db->prepare("INSERT INTO messages (name, email, message) VALUES (?, ?, ?)");
+        $stmt = $db->prepare("INSERT INTO messages (name, email, message, ip_address) VALUES (?, ?, ?, ?)");
         return $stmt->execute([
             $data['name'],
             $data['email'],
-            $data['message']
+            $data['message'],
+            $data['ip_address'] ?? null
         ]);
     }
 

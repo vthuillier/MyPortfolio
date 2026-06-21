@@ -261,6 +261,11 @@
                                             <div class="text-[10px] text-stone-500 font-mono">
                                                 <?php echo htmlspecialchars($msg['email']); ?>
                                             </div>
+                                            <?php if (!empty($msg['ip_address'])): ?>
+                                                <div class="text-[9px] text-stone-600 font-mono">
+                                                    IP: <?php echo htmlspecialchars($msg['ip_address']); ?>
+                                                </div>
+                                            <?php endif; ?>
                                         </td>
                                         <td class="px-6 py-4">
                                             <div class="text-stone-400 text-xs line-clamp-2 max-w-md">
@@ -278,6 +283,9 @@
                                             <?php endif; ?>
                                             <a href="/admin/message/reply?id=<?php echo $msg['id']; ?>"
                                                 class="text-stone-400 hover:text-yellow-400 transition text-[10px] font-black uppercase tracking-widest">Reply</a>
+                                            <a href="/admin/message/ban?id=<?php echo $msg['id']; ?>"
+                                                onclick="return confirm('Ban sender? IP and Email will be blocked and this message will be deleted.')"
+                                                class="text-orange-600 hover:text-orange-400 transition text-[10px] font-black uppercase tracking-widest">Ban</a>
                                             <a href="/admin/message/delete?id=<?php echo $msg['id']; ?>"
                                                 onclick="return confirm('Erase transmission record?')"
                                                 class="text-red-900 hover:text-red-500 transition text-[10px] font-black uppercase tracking-widest">Erase</a>
@@ -291,6 +299,88 @@
                                 NO INCOMING TRANSMISSIONS DETECTED.
                             </div>
                         <?php endif; ?>
+                    </div>
+                </div>
+
+                <!-- Banned Senders Section -->
+                <div class="space-y-10 pt-10 border-t border-stone-800">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-3xl font-black uppercase tracking-tighter text-orange-500">Banned Senders</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Manual Ban Form -->
+                        <div class="glass-card p-6 border border-stone-800">
+                            <h3 class="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-4">Manual Ban Injection</h3>
+                            <form action="/admin/banned-sender/create" method="POST" class="space-y-4">
+                                <?php echo \App\Helpers\Csrf::field(); ?>
+                                <div class="space-y-1">
+                                    <label class="block text-[9px] font-bold text-stone-500 uppercase tracking-widest">Target Type</label>
+                                    <select name="type" class="w-full px-3 py-2 bg-stone-900 border border-stone-800 focus:border-orange-500 outline-none text-white text-xs">
+                                        <option value="email">Email Address</option>
+                                        <option value="ip">IP Address</option>
+                                    </select>
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="block text-[9px] font-bold text-stone-500 uppercase tracking-widest">Value</label>
+                                    <input type="text" name="value" placeholder="e.g. jessica.l.wells@hotmail.co.uk or 192.168.1.1" required
+                                        class="w-full px-3 py-2 bg-stone-900 border border-stone-800 focus:border-orange-500 outline-none text-white text-xs">
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="block text-[9px] font-bold text-stone-500 uppercase tracking-widest">Reason</label>
+                                    <input type="text" name="reason" placeholder="Spam pattern description"
+                                        class="w-full px-3 py-2 bg-stone-900 border border-stone-800 focus:border-orange-500 outline-none text-white text-xs">
+                                </div>
+                                <button type="submit" class="w-full py-2 bg-orange-600 text-black font-black uppercase tracking-widest text-[9px] hover:bg-orange-500 transition">
+                                    Inject Ban
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Banned Senders List -->
+                        <div class="md:col-span-2 glass-card border border-stone-800 overflow-hidden">
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-stone-800">
+                                    <thead class="bg-stone-900/50">
+                                        <tr>
+                                            <th class="px-4 py-3 text-left text-[9px] font-black text-stone-500 uppercase tracking-widest">Type</th>
+                                            <th class="px-4 py-3 text-left text-[9px] font-black text-stone-500 uppercase tracking-widest">Banned Target</th>
+                                            <th class="px-4 py-3 text-left text-[9px] font-black text-stone-500 uppercase tracking-widest">Reason</th>
+                                            <th class="px-4 py-3 text-right text-[9px] font-black text-stone-500 uppercase tracking-widest">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-stone-800">
+                                        <?php foreach ($banned_senders as $ban): ?>
+                                            <tr class="hover:bg-white/5 transition">
+                                                <td class="px-4 py-3">
+                                                    <span class="text-[8px] font-black px-1.5 py-0.5 border <?php echo $ban['type'] === 'ip' ? 'border-orange-500/20 text-orange-500' : 'border-red-600/20 text-red-600'; ?> uppercase tracking-widest">
+                                                        <?php echo htmlspecialchars($ban['type']); ?>
+                                                    </span>
+                                                </td>
+                                                <td class="px-4 py-3 text-xs font-mono text-stone-200">
+                                                    <?php echo htmlspecialchars($ban['value']); ?>
+                                                </td>
+                                                <td class="px-4 py-3 text-[10px] text-stone-400 max-w-[150px] truncate">
+                                                    <?php echo htmlspecialchars($ban['reason'] ?? '-'); ?>
+                                                </td>
+                                                <td class="px-4 py-3 text-right">
+                                                    <a href="/admin/banned-sender/delete?id=<?php echo $ban['id']; ?>"
+                                                        onclick="return confirm('Lift this ban?')"
+                                                        class="text-stone-500 hover:text-green-500 transition text-[9px] font-black uppercase tracking-widest">Unban</a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                        <?php if (empty($banned_senders)): ?>
+                                            <tr>
+                                                <td colspan="4" class="p-8 text-center text-stone-600 font-mono text-xs italic">
+                                                    NO BANNED SENDERS ON RECORD.
+                                                </td>
+                                            </tr>
+                                        <?php endif; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- Dev Log Section -->

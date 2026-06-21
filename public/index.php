@@ -178,6 +178,18 @@ switch ($route) {
         (new AdminController())->messageDelete();
         break;
 
+    case 'admin/message/ban':
+        (new AdminController())->messageBan();
+        break;
+
+    case 'admin/banned-sender/delete':
+        (new AdminController())->bannedSenderDelete();
+        break;
+
+    case 'admin/banned-sender/create':
+        (new AdminController())->bannedSenderCreate();
+        break;
+
     case 'admin/settings':
         (new AdminController())->settingsUpdate();
         break;

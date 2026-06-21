@@ -58,6 +58,23 @@ class HomeController extends Controller
     {
         // Handle contact form submission
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Get sender IP
+            $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+            if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                $ip = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])[0];
+            } elseif (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+                $ip = $_SERVER['HTTP_CLIENT_IP'];
+            }
+            $ip = trim($ip);
+
+            $email = $_POST['email'] ?? '';
+
+            // Check if sender is banned (IP or Email)
+            if (\App\Models\BannedSender::isBanned($ip, $email)) {
+                // Silently redirect to success to avoid alerting the spammer
+                $this->redirect('/?success=1');
+            }
+
             // Rate limiting check: max 3 messages per hour
             if (\App\Helpers\RateLimiter::isLimited('contact_form', 3, 3600)) {
                 $this->redirect('/?error=rate_limit');
@@ -72,8 +89,9 @@ class HomeController extends Controller
 
             $data = [
                 'name' => $_POST['name'] ?? 'Anonymous',
-                'email' => $_POST['email'] ?? 'No email',
-                'message' => $_POST['message'] ?? 'No message'
+                'email' => $email,
+                'message' => $_POST['message'] ?? 'No message',
+                'ip_address' => $ip
             ];
 
             if (Message::create($data)) {
