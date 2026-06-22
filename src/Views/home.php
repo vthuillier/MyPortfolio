@@ -488,6 +488,11 @@ $isEn = \App\Helpers\Language::getCurrent() === 'en';
 
                 <form action="/contact" method="POST" class="space-y-6">
                     <?php echo \App\Helpers\Csrf::field(); ?>
+                    
+                    <!-- Honeypot field to catch bots -->
+                    <div style="display: none;" aria-hidden="true">
+                        <input type="text" name="website" autocomplete="off" tabindex="-1">
+                    </div>
 
                     <?php if (isset($_GET['success'])): ?>
                         <div class="bg-yellow-400 text-black px-6 py-4 font-black uppercase tracking-tighter text-sm mb-6">

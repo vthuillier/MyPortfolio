@@ -75,6 +75,28 @@ class HomeController extends Controller
                 $this->redirect('/?success=1');
             }
 
+            // Check if message is spam (honeypot or text heuristics)
+            $messageContent = $_POST['message'] ?? '';
+            if (\App\Helpers\SpamChecker::isSpam($_POST, $messageContent)) {
+                // Auto-ban IP
+                \App\Models\BannedSender::create([
+                    'type' => 'ip',
+                    'value' => $ip,
+                    'reason' => 'Auto-ban: spam detected'
+                ]);
+                // Auto-ban Email if provided
+                if (!empty($email)) {
+                    \App\Models\BannedSender::create([
+                        'type' => 'email',
+                        'value' => $email,
+                        'reason' => 'Auto-ban: spam detected'
+                    ]);
+                }
+                
+                // Silently redirect to success
+                $this->redirect('/?success=1');
+            }
+
             // Rate limiting check: max 3 messages per hour
             if (\App\Helpers\RateLimiter::isLimited('contact_form', 3, 3600)) {
                 $this->redirect('/?error=rate_limit');
